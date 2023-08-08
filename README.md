@@ -1,1 +1,1 @@
-# Website
+This is a fully front-end and backend project which is a clone project Amazon website.
