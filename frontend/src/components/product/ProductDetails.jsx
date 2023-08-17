@@ -1,6 +1,7 @@
 import React, {Fragment, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
 import Loader from '../layout/loader'
+import {Carousel} from 'react-bootstrap'
 
 import MetaData from '../layout/MetaData'
 
@@ -9,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { getProductDetails, clearErrors } from '../../actions/productActions'
 
-const ProductDetails = (match) => {
+const ProductDetails = ({match}) => {
 
     const dispatch = useDispatch();
     const alert = useAlert();
@@ -25,7 +26,6 @@ const ProductDetails = (match) => {
         }
 
         dispatch(getProductDetails(params.id));
-        console.log(product);
     }, [dispatch, error, alert, params.id]);
 
 
@@ -36,7 +36,13 @@ const ProductDetails = (match) => {
                 <MetaData title={`${product.name}`} />
                   <div className="row f-flex justify-content-around">
                       <div className="col-12 col-lg-5 img-fluid" id="product_image">
-                          <img src={product.images[0].url} id={product.images[0]._id} alt="sdf" height="500" width="500" />
+                            <Carousel pause='hover'>
+                                {product.images && product.images.map(image => (
+                                    <Carousel.Item key={image.public_id}>
+                                        <img className="d-block w-100" src={image.url} alt={product.title} />
+                                    </Carousel.Item>
+                                ))}
+                            </Carousel>
                       </div>
 
                       <div className="col-12 col-lg-5 mt-5">
