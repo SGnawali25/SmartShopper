@@ -6,8 +6,12 @@ import Product from './product/product'
 import Loader from './layout/loader';
 import { useAlert } from 'react-alert';
 import Pagination from 'react-js-pagination'
+import { useParams } from 'react-router-dom'
 
 const Home = () => {
+    const params = useParams();
+
+    const keyword = params.keyword
 
     const [currentPage, setCurrentPage] = useState(1)
 
@@ -18,15 +22,15 @@ const Home = () => {
     const alert = useAlert();
     const dispatch = useDispatch()
 
-    const { loading, error, products, productsCount, resPerPage } = useSelector(state => state.products)
+    const { loading, error, products, productsCount, resPerPage, filteredProductsCount } = useSelector(state => state.products)
 
     useEffect(() => {
         if (error) {
             return alert.error(error)
         }
-        dispatch(getProducts(currentPage));
+        dispatch(getProducts(keyword, currentPage));
 
-    }, [dispatch, error, alert, currentPage])
+    }, [dispatch, error, alert, keyword, currentPage])
 
     return (
         <Fragment>
@@ -46,7 +50,7 @@ const Home = () => {
                         </div>
                     </section>
 
-                    {resPerPage < productsCount && (
+                    {productsCount > resPerPage && (
                         <div className="d-flex justify-content-center mt-5" >
                             <Pagination
                                 activePage={currentPage}
