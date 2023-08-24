@@ -1,6 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import MetaData from './layout/MetaData'
 import { useDispatch, useSelector } from 'react-redux'
+
+
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+// import Tooltip from 'rc-tooltip';
+// import 'rc-tooltip/assets/bootstrap.css'
+
 import { getProducts } from '../actions/productActions'
 import Product from './product/product'
 import Loader from './layout/loader';
@@ -8,12 +15,19 @@ import { useAlert } from 'react-alert';
 import Pagination from 'react-js-pagination'
 import { useParams } from 'react-router-dom'
 
+// const SliderWithTooltip = Slider.createSliderWithTooltip;
+// const Range = Slider.Range;
+
+
 const Home = () => {
     const params = useParams();
 
     const keyword = params.keyword
 
     const [currentPage, setCurrentPage] = useState(1)
+    const [price, setPrice] = useState([1,1000])
+
+
 
     const setCurrentPageNo = (pageNumber) => {
         setCurrentPage(pageNumber)
@@ -28,9 +42,9 @@ const Home = () => {
         if (error) {
             return alert.error(error)
         }
-        dispatch(getProducts(keyword, currentPage));
+        dispatch(getProducts(keyword, currentPage, price));
 
-    }, [dispatch, error, alert, keyword, currentPage])
+    }, [dispatch, error, alert, keyword, currentPage, price])
 
     return (
         <Fragment>
@@ -40,13 +54,11 @@ const Home = () => {
                     <h1 id='products_heading'>Latest Products</h1>
                     <section id="products" className="container mt-5">
                         <div className="row">
-                            {products && products.map(product => (
-                                <Product key={product._id} product={product} />
-                            ))}
-
-
-
-
+                            {
+                                products && products.map(product => (
+                                    <Product key={product._id} product={product} />
+                                ))
+                            }
                         </div>
                     </section>
 
