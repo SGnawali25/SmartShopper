@@ -12,7 +12,7 @@ const Search = () => {
         if(keyword.trim()){
             navigate(`/search/${keyword}`);
         }else {
-            navigate('');
+            navigate('/');
         }
     }
   return (
