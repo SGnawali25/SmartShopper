@@ -5,7 +5,7 @@ const MetaData = ({title}) => {
   return (
    <>
       <Helmet>
-        <title>{`${title} - Website`}</title>
+        <title>{`${title} - SmartShopper`}</title>
       </Helmet>
     </>
   )

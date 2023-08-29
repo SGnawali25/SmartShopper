@@ -37,7 +37,7 @@ const Home = () => {
     const dispatch = useDispatch()
 
     const { loading, error, products, productsCount, resPerPage, filteredProductsCount } = useSelector(state => state.products)
-
+    const {isAuthenticated, user} = useSelector(state => state.auth);
     useEffect(() => {
         if (error) {
             return alert.error(error)
@@ -50,7 +50,7 @@ const Home = () => {
         <Fragment>
             {loading ? <Loader /> : (
                 <Fragment>
-                    <MetaData title='All Products' />
+                    <MetaData title={isAuthenticated ? user.name : 'Buy Best Products Online' } />
                     <h1 id='products_heading'>Latest Products</h1>
                     <section id="products" className="container mt-5">
                         <div className="row">
