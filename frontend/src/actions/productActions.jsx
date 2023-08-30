@@ -17,7 +17,7 @@ export const getProducts = (keyword = "", currentPage = 1, price) => async (disp
             type: ALL_PRODUCTS_REQUEST
         })
 
-        let link = `http://127.0.0.1:4000/api/v1/products?keyword=${keyword}&page=${currentPage}
+        let link = `http://localhost:4000/api/v1/products?keyword=${keyword}&page=${currentPage}
                     &price[lte]=${price[1]}&price[gte]=${price[0]}` 
 
         const { data } = await axios.get(link);
@@ -43,7 +43,9 @@ export const getProductDetails = (id) => async (dispatch) => {
             type: PRODUCT_DETAILS_REQUEST
         })
 
-        const { data } = await axios.get(`http://127.0.0.1:4000/api/v1/product/${id}`);
+        const config = {withCredentials: true}
+
+        const { data } = await axios.get(`http://localhost:4000/api/v1/product/${id}`, config);
 
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,

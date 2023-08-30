@@ -10,7 +10,7 @@ import 'rc-slider/assets/index.css';
 
 import { getProducts } from '../actions/productActions'
 import Product from './product/product'
-import Loader from './layout/loader';
+import Loader from './layout/Loader';
 import { useAlert } from 'react-alert';
 import Pagination from 'react-js-pagination'
 import { useParams } from 'react-router-dom'
@@ -38,6 +38,7 @@ const Home = () => {
 
     const { loading, error, products, productsCount, resPerPage, filteredProductsCount } = useSelector(state => state.products)
     const {isAuthenticated, user} = useSelector(state => state.auth);
+
     useEffect(() => {
         if (error) {
             return alert.error(error)
@@ -50,7 +51,7 @@ const Home = () => {
         <Fragment>
             {loading ? <Loader /> : (
                 <Fragment>
-                    <MetaData title={isAuthenticated ? user.name : 'Buy Best Products Online' } />
+                    <MetaData title={'Buy Best Products Online' } />
                     <h1 id='products_heading'>Latest Products</h1>
                     <section id="products" className="container mt-5">
                         <div className="row">

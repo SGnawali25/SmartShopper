@@ -16,12 +16,18 @@ const ProductDetails = ({match}) => {
     const alert = useAlert();
 
     const {loading, error, product} = useSelector((state) => state.productDetails);
+    const {isAuthenticated, user} = useSelector((state) => state.auth)
     const params = useParams()
 
     useEffect(() => {
 
         if (error) {
             alert.error(error);
+            return dispatch(clearErrors());
+        }
+
+        if (!isAuthenticated){
+            alert.error("Please login to view the product details")
             return dispatch(clearErrors());
         }
 

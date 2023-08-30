@@ -31,22 +31,22 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
     let filteredProductsCount = products.length;
 
     // this is to check the loading
-    setTimeout(() => {
-        res.status(200).json({
-            success: true,
-            productsCount,
-            filteredProductsCount,
-            resPerPage,
-            products
-        })
-    },2000);
+    // setTimeout(() => {
+    //     res.status(200).json({
+    //         success: true,
+    //         productsCount,
+    //         filteredProductsCount,
+    //         resPerPage,
+    //         products
+    //     })
+    // },2000);
 
-    // res.status(200).json({
-    //     success: true,
-    //     productsCount,
-    //     filteredProductsCount,
-    //     products
-    // })
+    res.status(200).json({
+        success: true,
+        productsCount,
+        filteredProductsCount,
+        products
+    })
     
 
 })
