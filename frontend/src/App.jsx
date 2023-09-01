@@ -9,6 +9,8 @@ import ProductDetails from './components/product/ProductDetails';
 import Login from './components/user/Login';
 import Register from './components/user/Register';
 import Profile from './components/user/Profile';
+import ForgotPassword from './components/user/ForgotPassword';
+
 
 import { loadUser } from './actions/userActions';
 import store from './store'; 
@@ -32,6 +34,7 @@ function App() {
             <Route path='/lgn' Component={Login} />
             <Route path='/register' Component={Register}/>
             <Route path='/me' Component={Profile} />
+            <Route path='/password/forgot' Component={ForgotPassword} />
           </Routes>
         </div>
         <Footer />
