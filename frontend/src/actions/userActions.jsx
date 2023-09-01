@@ -28,7 +28,7 @@ export const login = (email, password) => async (dispatch) => {
             withCredentials: true,
         }
 
-        const {data} = await axios.post(`http://localhost:4000/api/v1/login`, {email, password} ,  config)
+        const {data} = await axios.post(`/api/v1/login`, {email, password} ,  config)
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -56,7 +56,7 @@ export const register = (name, email, password) => async(dispatch) => {
             },
             withCredentials: true,
         }
-        const {data} = await axios.post(`http://localhost:4000/api/v1/register`,{name, email, password}, config);
+        const {data} = await axios.post(`/api/v1/register`,{name, email, password}, config);
 
         dispatch({
             type: REGISTER_USER_SUCCESS,
@@ -81,7 +81,7 @@ export const loadUser = () => async(dispatch) => {
 
         const config = {withCredentials: true}
 
-        const {data} = await axios.get(`http://localhost:4000/api/v1/me`, config);
+        const {data} = await axios.get(`/api/v1/me`, config);
 
         dispatch({
             type: LOAD_USER_SUCCESS,
