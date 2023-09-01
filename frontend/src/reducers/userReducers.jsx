@@ -13,7 +13,10 @@ import{
     LOAD_USER_FAIL,
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS,
-    FORGOT_PASSWORD_FAIL
+    FORGOT_PASSWORD_FAIL,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_FAIL
 } from '../constants/userConstants';
 
 export const authReducer = (state = {user: {} }, action) => {

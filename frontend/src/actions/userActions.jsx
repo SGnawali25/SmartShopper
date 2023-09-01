@@ -15,7 +15,10 @@ import{
     LOGOUT_FAIL,
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS,
-    FORGOT_PASSWORD_FAIL
+    FORGOT_PASSWORD_FAIL,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_FAIL
 } from '../constants/userConstants';
 
 //Login
@@ -139,7 +142,7 @@ export const forgotPassword = (email) => async(dispatch) => {
             withCredentials: true,
         }
 
-        const {data} = await axios.post(`/api/v1/password/forgot`, {email}, config);
+        const {data} = await axios.post(`/api/v1/password/reset`, {email}, config);
 
         dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
@@ -152,6 +155,8 @@ export const forgotPassword = (email) => async(dispatch) => {
         })
     }
 }
+
+
 
 //clear errors
 export const clearErrors = () => async (dispatch) => {

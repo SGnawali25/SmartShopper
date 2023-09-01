@@ -15,8 +15,8 @@ import { useAlert } from 'react-alert';
 import Pagination from 'react-js-pagination'
 import { useParams } from 'react-router-dom'
 
-// const SliderWithTooltip = Slider.createSliderWithTooltip;
-// const Range = Slider.Range;
+const SliderWithTooltip = Slider.createSliderWithTooltip;
+const Range = Slider.Range;
 
 
 const Home = () => {
@@ -55,11 +55,22 @@ const Home = () => {
                     <h1 id='products_heading'>Latest Products</h1>
                     <section id="products" className="container mt-5">
                         <div className="row">
-                            {
-                                products && products.map(product => (
-                                    <Product key={product._id} product={product} />
-                                ))
-                            }
+                        {keyword ? (
+                                <Fragment>
+
+                                    <div className="col-6 col-md-9">
+                                        <div className="row">
+                                            {products.map(product => (
+                                                <Product key={product._id} product={product} col={4} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </Fragment>
+                            ) : (
+                                    products.map(product => (
+                                        <Product key={product._id} product={product} col={3} />
+                                    ))
+                                )}
                         </div>
                     </section>
 
