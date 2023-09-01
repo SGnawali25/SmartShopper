@@ -110,7 +110,7 @@ export const logout = () => async(dispatch) => {
 
         const config = {withCredentials: true}
 
-        await axios.get(`http://localhost:4000/api/v1/logout`, config);
+        await axios.get(`/api/v1/logout`, config);
 
         dispatch({
             type: LOGOUT_SUCCESS,
