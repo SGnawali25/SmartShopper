@@ -20,7 +20,7 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
-    const {isAuthenticated, error, loading} = useSelector(state => state.auth); 
+    const {isAuthenticated, error, loading, message} = useSelector(state => state.auth); 
 
 
     useEffect(() => {
@@ -28,8 +28,8 @@ const Login = () => {
             navigate('/')
         }
 
-        if (error){
-            alert.error(error);
+        if (message){
+            alert.error(message);
             dispatch(clearErrors());
         }
     },[dispatch, alert, isAuthenticated, error])

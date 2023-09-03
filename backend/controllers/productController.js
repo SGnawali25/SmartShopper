@@ -45,6 +45,7 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
         success: true,
         productsCount,
         filteredProductsCount,
+        resPerPage,
         products
     })
     

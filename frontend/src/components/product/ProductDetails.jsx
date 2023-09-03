@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect} from 'react'
-import { useParams } from 'react-router-dom'
-import Loader from '../layout/loader'
+import { useParams, useNavigate } from 'react-router-dom'
+import Loader from '../layout/Loader'
 import {Carousel} from 'react-bootstrap'
 
 import MetaData from '../layout/MetaData'
@@ -12,6 +12,8 @@ import { getProductDetails, clearErrors } from '../../actions/productActions'
 
 const ProductDetails = ({match}) => {
 
+
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const alert = useAlert();
 
@@ -23,12 +25,14 @@ const ProductDetails = ({match}) => {
 
         if (error) {
             alert.error(error);
-            return dispatch(clearErrors());
+            dispatch(clearErrors());
         }
 
         if (!isAuthenticated){
             alert.error("Please login to view the product details")
-            return dispatch(clearErrors());
+            dispatch(clearErrors());
+            navigate('/')
+            return;
         }
 
         dispatch(getProductDetails(params.id));
@@ -36,12 +40,12 @@ const ProductDetails = ({match}) => {
 
 
   return (
-      <Fragment>
-          {loading ? <Loader /> : (
-              <Fragment>
-                <MetaData title={`${product.name}`} />
-                  <div className="row f-flex justify-content-around">
-                      <div className="col-12 col-lg-5 img-fluid" id="product_image">
+        <Fragment>
+            {loading ? <Loader /> : (
+                <Fragment>
+                    <MetaData title={`${product.name}`} />
+                    <div className="row f-flex justify-content-around">
+                        <div className="col-12 col-lg-5 img-fluid" id="product_image">
                             <Carousel pause='hover'>
                                 {product.images && product.images.map(image => (
                                     <Carousel.Item key={image._id}>
@@ -49,92 +53,92 @@ const ProductDetails = ({match}) => {
                                     </Carousel.Item>
                                 ))}
                             </Carousel>
-                      </div>
+                        </div>
 
-                      <div className="col-12 col-lg-5 mt-5">
-                          <h3>{product.name}</h3>
-                          <p id="product_id">{product._id}</p>
+                        <div className="col-12 col-lg-5 mt-5">
+                            <h3>{product.name}</h3>
+                            <p id="product_id">{product._id}</p>
 
-                          <hr />
+                            <hr />
 
-                          <div className="rating-outer">
-                              <div className="rating-inner" style={{
-                              width: `${product.ratings /
-                                  5 * 100}%`
-                          }}></div>
-                          </div>
-                          <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
+                            <div className="rating-outer">
+                                <div className="rating-inner" style={{
+                                    width: `${product.ratings /
+                                        5 * 100}%`
+                                }}></div>
+                            </div>
+                            <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
 
-                          <hr />
+                            <hr />
 
-                          <p id="product_price">${product.price}</p>
-                          <div className="stockCounter d-inline">
-                              <span className="btn btn-danger minus">-</span>
+                            <p id="product_price">${product.price}</p>
+                            <div className="stockCounter d-inline">
+                                <span className="btn btn-danger minus">-</span>
 
-                              <input type="number" className="form-control count d-inline" value="1" readOnly />
+                                <input type="number" className="form-control count d-inline" value="1" readOnly />
 
-                              <span className="btn btn-primary plus">+</span>
-                          </div>
-                          <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">Add to Cart</button>
+                                <span className="btn btn-primary plus">+</span>
+                            </div>
+                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">Add to Cart</button>
 
-                          <hr />
+                            <hr />
 
-                          <p>Status: <span id="stock_status" className={product.stock > 0 ? 'greenColor': 'redColor'}>{product.stock > 0 ? 'In Stock': "Out of Stock"}</span></p>
+                            <p>Status: <span id="stock_status" className={product.stock > 0 ? 'greenColor' : 'redColor'}>{product.stock > 0 ? 'In Stock' : "Out of Stock"}</span></p>
 
-                          <hr />
+                            <hr />
 
-                          <h4 className="mt-2">Description:</h4>
-                          <p>{product.description}</p>
-                          <hr />
-                          <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
+                            <h4 className="mt-2">Description:</h4>
+                            <p>{product.description}</p>
+                            <hr />
+                            <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
 
-                          <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal">
-                              Submit Your Review
-                          </button>
+                            <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal">
+                                Submit Your Review
+                            </button>
 
-                          <div className="row mt-2 mb-5">
-                              <div className="rating w-50">
+                            <div className="row mt-2 mb-5">
+                                <div className="rating w-50">
 
-                                  <div className="modal fade" id="ratingModal" tabIndex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
-                                      <div className="modal-dialog" role="document">
-                                          <div className="modal-content">
-                                              <div className="modal-header">
-                                                  <h5 className="modal-title" id="ratingModalLabel">Submit Review</h5>
-                                                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                  </button>
-                                              </div>
-                                              <div className="modal-body">
+                                    <div className="modal fade" id="ratingModal" tabIndex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                                        <div className="modal-dialog" role="document">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title" id="ratingModalLabel">Submit Review</h5>
+                                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div className="modal-body">
 
-                                                  <ul className="stars" >
-                                                      <li className="star"><i className="fa fa-star"></i></li>
-                                                      <li className="star"><i className="fa fa-star"></i></li>
-                                                      <li className="star"><i className="fa fa-star"></i></li>
-                                                      <li className="star"><i className="fa fa-star"></i></li>
-                                                      <li className="star"><i className="fa fa-star"></i></li>
-                                                  </ul>
+                                                    <ul className="stars" >
+                                                        <li className="star"><i className="fa fa-star"></i></li>
+                                                        <li className="star"><i className="fa fa-star"></i></li>
+                                                        <li className="star"><i className="fa fa-star"></i></li>
+                                                        <li className="star"><i className="fa fa-star"></i></li>
+                                                        <li className="star"><i className="fa fa-star"></i></li>
+                                                    </ul>
 
-                                                  <textarea name="review" id="review" className="form-control mt-3">
+                                                    <textarea name="review" id="review" className="form-control mt-3">
 
-                                                  </textarea>
+                                                    </textarea>
 
-                                                  <button className="btn my-3 float-right review-btn px-4 text-white" data-dismiss="modal" aria-label="Close">Submit</button>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
+                                                    <button className="btn my-3 float-right review-btn px-4 text-white" data-dismiss="modal" aria-label="Close">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                              </div>
+                                </div>
 
-                          </div>
+                            </div>
 
-                      </div>
+                        </div>
 
-                  </div>
-              </Fragment>
-          )}
-      </Fragment>
-  )
+                    </div>
+                </Fragment>
+            )}
+        </Fragment>
+    )
 }
 
 export default ProductDetails
