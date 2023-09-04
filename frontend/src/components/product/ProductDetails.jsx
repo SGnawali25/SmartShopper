@@ -10,30 +10,28 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { getProductDetails, clearErrors } from '../../actions/productActions'
 
-const ProductDetails = ({match}) => {
+const ProductDetails = () => {
 
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const alert = useAlert();
 
-    const {loading, error, product} = useSelector((state) => state.productDetails);
-    const {isAuthenticated, user} = useSelector((state) => state.auth)
+    
     const params = useParams()
+
+    const {loading, error, product} = useSelector(state => state.productDetails);
+    const {user} = useSelector(state => state.auth);
 
     useEffect(() => {
 
         if (error) {
             alert.error(error);
             dispatch(clearErrors());
-        }
-
-        if (!isAuthenticated){
-            alert.error("Please login to view the product details")
-            dispatch(clearErrors());
-            navigate('/')
+            navigate('/');
             return;
         }
+
 
         dispatch(getProductDetails(params.id));
     }, [dispatch, error, alert, params.id]);
@@ -133,7 +131,6 @@ const ProductDetails = ({match}) => {
                             </div>
 
                         </div>
-
                     </div>
                 </Fragment>
             )}

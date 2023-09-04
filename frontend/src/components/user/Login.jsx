@@ -6,7 +6,7 @@ import MetaData from "../layout/MetaData";
 
 import {useAlert} from 'react-alert';
 import {useDispatch, useSelector} from 'react-redux';
-import {login, clearErrors} from '../../actions/userActions';
+import {login, clearErrors, loadUser} from '../../actions/userActions';
 
 
 
@@ -20,7 +20,7 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
-    const {isAuthenticated, error, loading, message} = useSelector(state => state.auth); 
+    const {isAuthenticated, error, loading, user} = useSelector(state => state.auth); 
 
 
     useEffect(() => {
@@ -28,16 +28,20 @@ const Login = () => {
             navigate('/')
         }
 
-        if (message){
-            alert.error(message);
+        if (error){
+            if (error !== "Please login to view the resources"){
+                alert.error(error);
+            }
+            
             dispatch(clearErrors());
         }
     },[dispatch, alert, isAuthenticated, error])
 
 
-    const submitHandler = (e) => {
+    const submitHandler = async(e) => {
         e.preventDefault();
-        dispatch(login(email, password))
+        await dispatch(login(email, password))
+        dispatch(loadUser());
     }
   return (
       <Fragment>

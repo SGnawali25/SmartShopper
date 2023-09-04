@@ -36,7 +36,7 @@ const Home = () => {
     const alert = useAlert();
     const dispatch = useDispatch()
 
-    const { loading, error, products, productsCount, resPerPage, filteredProductsCount } = useSelector(state => state.products)
+    const { loading, error, products, productsCount, resPerPage } = useSelector(state => state.products)
     const {isAuthenticated, user} = useSelector(state => state.auth);
 
     useEffect(() => {

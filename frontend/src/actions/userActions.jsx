@@ -171,7 +171,7 @@ export const resetPassword = (token, password, confirmPassword) => async(dispatc
             withCredentials: true,
         }
 
-        const {data} = await axios.put(`/api/v1/password/reset/${token}`, {password, confirmPassword}, config);
+        const {data} = await axios.put(`/api/v1/password/reset/${token}`, {password, confirmPassword}, config)
 
         dispatch({
             type: RESET_PASSWORD_SUCCESS,
@@ -185,8 +185,9 @@ export const resetPassword = (token, password, confirmPassword) => async(dispatc
     }
 }
 
-//change password
-export const changePassword = (currentPassword, newPassword, confirmNewPassword) => async(dispatch) => {
+
+
+export const changePassword = (currentPassword, newPassword, confirmNewPassword) => async (dispatch) => {
     try{
         dispatch({type: CHANGE_PASSWORD_REQUEST})
 
@@ -200,12 +201,12 @@ export const changePassword = (currentPassword, newPassword, confirmNewPassword)
         const {data} = await axios.put(`/api/v1/password/change`, {currentPassword, newPassword, confirmNewPassword}, config);
 
         dispatch({
-            type: RESET_PASSWORD_SUCCESS,
-            payload: data
+            type: CHANGE_PASSWORD_SUCCESS,
+            payload: data.message
         })
     } catch (error){
         dispatch({
-            type: RESET_PASSWORD_FAIL,
+            type: CHANGE_PASSWORD_FAIL,
             payload: error.response.data.message
         })
     }

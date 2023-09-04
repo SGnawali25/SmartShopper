@@ -3,11 +3,13 @@ import MetaData from '../layout/MetaData';
 import { forgotPassword, clearErrors } from '../../actions/userActions';
 import { useDispatch, useSelector } from'react-redux';
 import {useAlert} from 'react-alert';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
 
     const alert = useAlert();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
 
@@ -27,8 +29,9 @@ const ForgotPassword = () => {
 
         if (message){
             alert.success(message);
+            navigate('/');
         }
-    })
+    },[error, message, alert, dispatch])
   return (
       <Fragment>
           <MetaData title={"Forgot Password"} />

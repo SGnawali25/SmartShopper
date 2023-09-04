@@ -3,7 +3,7 @@ import MetaData from '../layout/MetaData'
 import { useAlert } from 'react-alert'
 import { useDispatch , useSelector} from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { resetPassword, clearErrors } from '../../actions/userActions'
+import { resetPassword, clearErrors, loadUser } from '../../actions/userActions'
 
 
 const NewPassword = () => {
@@ -14,7 +14,7 @@ const NewPassword = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
-    const {error, success} = useSelector((state) => state.forgotPassword)
+    const {error, message} = useSelector((state) => state.forgotPassword)
 
     useEffect(() => {
         if (error) {
@@ -22,11 +22,12 @@ const NewPassword = () => {
             dispatch(clearErrors())
         }
 
-        if (success) {
-            alert.success("Your password has been changed successfully.");
+        if (message) {
+            alert.success(message);
+            dispatch(loadUser())
             navigate('/')
         }
-    },[dispatch, alert, error, success, ])
+    },[dispatch, alert, error, message ])
 
     const submitHandler = (e) => {
         e.preventDefault()

@@ -12,6 +12,7 @@ const Header = () => {
     const alert = useAlert();
     const dispatch = useDispatch();
 
+    // const {user} = useSelector((state)=> state.auth);
     const {user, loading} = useSelector((state)=> state.auth);
 
     const logoutHandler = () => {
@@ -25,7 +26,7 @@ const Header = () => {
             <div className="col-12 col-md-3">
                 <div className="navbar-brand">
                     <Link to='/'>
-                        <img src="./images/shopit_logo.png" />
+                        <img src="/images/SmartShopperLogo.png" width={180}/>
                     </Link>
                 </div>
             </div>

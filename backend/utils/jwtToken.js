@@ -1,5 +1,5 @@
 //create and send token and save in cookie
-const sendToken = (user, statusCode, res) => {
+const sendToken = (user, statusCode, message, res) => {
 
     //create jwt token
     const token = user.getJwtToken();
@@ -14,7 +14,8 @@ const sendToken = (user, statusCode, res) => {
     res.status(statusCode).cookie('token', token, options).json({
         success: true,
         token,
-        user
+        user,
+        message
     })
 
 

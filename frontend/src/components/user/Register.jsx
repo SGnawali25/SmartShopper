@@ -20,7 +20,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
 
 
-    const {isAuthenticated, error, loading} = useSelector(state => state.auth)
+    const {isAuthenticated, error, loading} = useSelector(state => state.registerUser)
 
     useEffect(() => {
         if (isAuthenticated){

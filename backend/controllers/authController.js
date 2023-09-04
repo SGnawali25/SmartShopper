@@ -62,7 +62,7 @@ exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
 
 
     if(!user) {
-        return next(new ErrorHandler('Password reset token is invalid or has been expired'))
+        return next(new ErrorHandler('Password reset token is invalid or has been expired',401))
     }
 
     if(req.body.password !== req.body.confirmPassword){
@@ -80,7 +80,7 @@ exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
     user.resetPasswordExpire = undefined;
 
     await user.save();
-    sendToken(user, 200, res);
+    sendToken(user, 200,"Passpord Changed successfully", res);
 })
 
 //Register a user
@@ -93,7 +93,12 @@ exports.registerUser = catchAsyncErrors( async(req, res, next) => {
         password
     })
 
-    sendToken(user, 200, res)
+    //whether user enterd email and password
+    if(!email || !password || !name){
+        return next(new ErrorHandler('Please enter name, email, and password properly', 400));
+    }
+
+    sendToken(user, 200, "", res)
 
     
 }
@@ -122,7 +127,9 @@ exports.loginUser = catchAsyncErrors( async(req, res, next) => {
         return next(new ErrorHandler("Invalid email or password", 401));
     }
 
-    sendToken(user, 200, res)
+
+
+    sendToken(user, 200, "", res)
 })
 
 //logout user
@@ -171,7 +178,7 @@ exports.changePassword = catchAsyncErrors( async(req, res, next) => {
 
     user.password = req.body.newPassword;
     await user.save()
-    sendToken(user,200, res)
+    sendToken(user,200 ,"Password Updated Successfully", res)
 
     
 
