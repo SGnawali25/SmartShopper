@@ -67,7 +67,7 @@ const Home = () => {
                                     </div>
                                 </Fragment>
                             ) : (
-                                    products && products.map(product => (
+                                products && products.map(product => (
                                         <Product key={product._id} product={product} col={3} />
                                     ))
                                 )}
