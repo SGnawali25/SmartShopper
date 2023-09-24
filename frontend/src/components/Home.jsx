@@ -3,8 +3,8 @@ import MetaData from './layout/MetaData'
 import { useDispatch, useSelector } from 'react-redux'
 
 
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
+// import Slider from 'rc-slider';
+// import 'rc-slider/assets/index.css';
 // import Tooltip from 'rc-tooltip';
 // import 'rc-tooltip/assets/bootstrap.css'
 
@@ -15,8 +15,8 @@ import { useAlert } from 'react-alert';
 import Pagination from 'react-js-pagination'
 import { useParams } from 'react-router-dom'
 
-const SliderWithTooltip = Slider.createSliderWithTooltip;
-const Range = Slider.Range;
+// const SliderWithTooltip = Slider.createSliderWithTooltip;
+// const Range = Slider.Range;
 
 
 const Home = () => {
