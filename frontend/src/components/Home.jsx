@@ -3,11 +3,6 @@ import MetaData from './layout/MetaData'
 import { useDispatch, useSelector } from 'react-redux'
 
 
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
-// import Tooltip from 'rc-tooltip';
-// import 'rc-tooltip/assets/bootstrap.css'
-
 import { getProducts } from '../actions/productActions'
 import Product from './product/product'
 import Loader from './layout/Loader';
@@ -15,8 +10,7 @@ import { useAlert } from 'react-alert';
 import Pagination from 'react-js-pagination'
 import { useParams } from 'react-router-dom'
 
-const SliderWithTooltip = Slider.createSliderWithTooltip;
-const Range = Slider.Range;
+
 
 
 const Home = () => {
@@ -67,7 +61,7 @@ const Home = () => {
                                     </div>
                                 </Fragment>
                             ) : (
-                                    products.map(product => (
+                                products && products.map(product => (
                                         <Product key={product._id} product={product} col={3} />
                                     ))
                                 )}
