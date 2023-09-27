@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import './App.css'
+
 import Home from './components/Home';
 import ProductDetails from './components/product/ProductDetails';
 import Login from './components/user/Login';
@@ -35,7 +36,7 @@ function App() {
             <Route path='/product/:id' Component={ProductDetails} exact/>
             <Route path='/lgn' Component={Login} />
             <Route path='/register' Component={Register}/>
-            <Route path='/me' Component={Profile} />
+            <Route path='/me' Component={Profile} exact/>
             <Route path='/password/forgot' Component={ForgotPassword} />
             <Route path='/password/reset/:token' Component={NewPassword} />
             <Route path='/password/update' Component={ChangePassword} />

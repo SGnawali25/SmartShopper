@@ -2,16 +2,25 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+
 
 const errorMiddleware = require('./middlewares/errors')
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb"}));
+app.use(bodyParser.json({ limit: "10mb"}));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: true, parameterLimit: 100000 }));
 app.use(cookieParser());
+app.use(fileUpload());
+
 
 app.use("*",cors({
     origin: true,
     credentials: true,
 }));
+
+
 
 //Import all routes
 const products = require('./routes/product');

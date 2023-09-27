@@ -4,7 +4,7 @@ import MetaData from '../layout/MetaData';
 
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
-import { register, clearErrors } from '../../actions/userActions';
+import { register, clearErrors, loadUser } from '../../actions/userActions';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -18,6 +18,9 @@ const Register = () => {
     const [name, setName] =  useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [avatar, setAvatar] = useState("");
+    const [avatarPreview, setAvatarPreview] = useState("/images/profile.png");
+    // console.log("avatar: " + avatar)
 
 
     const {isAuthenticated, error, loading} = useSelector(state => state.registerUser)
@@ -34,10 +37,32 @@ const Register = () => {
     }, [dispatch, alert, isAuthenticated, error]);
 
 
-    const submitHandler = (e) => {
+    const submitHandler = async(e) => {
         e.preventDefault();
-        dispatch(register(name, email, password));
+
+        const formData = new FormData();
+        formData.set('name', name);
+        formData.set('email', email);
+        formData.set('password', password);
+        formData.set('avatar', avatar)
+
+        await dispatch(register(formData));
+        dispatch(loadUser())
         
+    }
+
+    const onChange = e => {
+        
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                if (reader.readyState === 2){
+                    setAvatarPreview(reader.result)
+                    setAvatar(reader.result)
+                }
+
+            }
+            reader.readAsDataURL(e.target.files[0])
     }
   return (
     <Fragment>
@@ -84,6 +109,40 @@ const Register = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+
+                        <div className="form-group">
+                            <label htmlFor="avatar_upload">Avatar</label>
+                            <div className="d-flex align-items-center">
+                                <div>
+                                    <figure className='avatar mr-3 item-rt1'>
+                                        <img 
+                                        src={avatarPreview} 
+                                        alt="Avatar Preview"
+                                        className='rounded-circle' 
+                                        />
+
+                                    </figure>
+                              </div>
+                              <div className="custom-file">
+                                  <input
+                                      type="file"
+                                      name='avatar'
+                                      maxLength="10MB"
+                                      accept = ".jpg, .png, .pdf"
+                                      className='cutom-file-input'
+                                      id='custom-file'
+                                    //   accept='/iamges/*'
+                                      onChange={onChange}
+                                  />
+                                  <label htmlFor="custom-file" className="custom-file-label">
+                                      Choose Avatar
+                                  </label>
+                              </div>
+                          </div>
+        
+                        </div>
+
+                        
 
                         <button
                             id="register_button"

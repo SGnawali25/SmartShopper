@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import {useDispatch, useSelector} from "react-redux";
 import {useAlert} from "react-alert";
+import profile from "/images/profile.png" 
 
 import { logout } from "../../actions/userActions";
 
@@ -47,7 +48,7 @@ const Header = () => {
 
                                 <figure className="avatar avatar-nav">
                                     <img
-                                        src="/images/profile.png"
+                                        src={user.avatar && user.avatar.url || profile}
                                         alt={user && user.name}
                                         className="rounded-circle"
                                     />

@@ -3,8 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-
-  "proxy": "https://smartshopperbackend.vercel.app/",
+  "proxy": "https://smartshopperapi.vercel.app/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
