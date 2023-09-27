@@ -7,8 +7,11 @@ export default defineConfig({
 
   server: {
     proxy: {
-      '/api': 'https://smartshopperbackend.vercel.app/'
+      '/api': 'https://smartshopperapi.vercel.app/'
     }
   }
 })
 
+// https://smartshopperapi.vercel.app
+
+//http://localhost:4000
