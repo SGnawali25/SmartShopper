@@ -18,6 +18,9 @@ const Register = () => {
     const [name, setName] =  useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [avatar, setAvatar] = useState("");
+    const [avatarPreview, setAvatarPreview] = useState("/images/profile.png");
+    // console.log("avatar: " + avatar)
 
 
     const {isAuthenticated, error, loading} = useSelector(state => state.registerUser)
@@ -36,8 +39,22 @@ const Register = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(register(name, email, password));
+        dispatch(register(name, email, password, avatar));
         
+    }
+
+    const onChange = e => {
+        
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                if (reader.readyState === 2){
+                    setAvatarPreview(reader.result)
+                    setAvatar(reader.result)
+                }
+
+            }
+            reader.readAsDataURL(e.target.files[0])
     }
   return (
     <Fragment>
@@ -84,6 +101,38 @@ const Register = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+
+                        <div className="form-group">
+                            <label htmlFor="avatar_upload">Avatar</label>
+                            <div className="d-flex align-items-center">
+                                <div>
+                                    <figure className='avatar mr-3 item-rt1'>
+                                        <img 
+                                        src={avatarPreview} 
+                                        alt="Avatar Preview"
+                                        className='rounded-circle' 
+                                        />
+
+                                    </figure>
+                              </div>
+                              <div className="custom-file">
+                                  <input
+                                      type="file"
+                                      name='avatar'
+                                      className='cutom-file-input'
+                                      id='custom-file'
+                                      accept='/iamges/*'
+                                      onChange={onChange}
+                                  />
+                                  <label htmlFor="custom-file" className="custom-file-label">
+                                      Choose Avatar
+                                  </label>
+                              </div>
+                          </div>
+        
+                        </div>
+
+                        
 
                         <button
                             id="register_button"

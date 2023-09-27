@@ -5,6 +5,7 @@ const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs')
+const cloudinary = require('cloudinary')
 
 
 //Forgot password
@@ -85,12 +86,23 @@ exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
 
 //Register a user
 exports.registerUser = catchAsyncErrors( async(req, res, next) => {
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar,{
+        folder: "users",
+        width: 150,
+        crop: "scale"
+    })
+
+    console.log("result: " + result.secure_url)
     const {name, email, password} = req.body;
 
     const user = await User.create({
         name,
         email,
-        password
+        password,
+        avatar:{
+            public_id: result.public_id,
+            url: result.secure_url
+        }
     })
 
     //whether user enterd email and password
