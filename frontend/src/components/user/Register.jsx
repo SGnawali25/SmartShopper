@@ -112,7 +112,7 @@ const Register = () => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="avatar_upload">Avatar</label>
+                            <label htmlFor="custom-file">Avatar</label>
                             <div className="d-flex align-items-center">
                                 <div>
                                     <figure className='avatar mr-3 item-rt1'>
