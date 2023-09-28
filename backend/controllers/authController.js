@@ -23,10 +23,10 @@ exports.forgotPassword = catchAsyncErrors( async(req, res, next) => {
     await user.save({validateBeforeSave: false});
 
     //create reset password url
-    const resetPasswordURL = `${req.protocol}://localhost:5173/password/reset/${resetToken}`;
+    const resetPasswordURL = `${req.protocol}://smartshopper.sandeshgnawali.com.np/password/reset/${resetToken}`;
 
-    const message = `Your password reset token is as follow:\n\n${resetPasswordURL}
-                    \n\nIf you have not requested this email, then ignore it.`;
+    const message = `<p>Your password reset link is as follow:</p>\n\n<a href = ${resetPasswordURL}>Click here </a> to reset Password
+                    \n\n<p>If you have not requested this email, please contact us.</p>`;
 
    try{
     await sendEmail({
@@ -155,7 +155,7 @@ exports.logout = catchAsyncErrors( async(req, res, next) => {
     const options = {
         expires: new Date(Date.now() + 10000),
         httpOnly: true,
-        secure: true,
+        // secure: true,
         path:"/"        }
 
     await res.cookie('token', null, options)
