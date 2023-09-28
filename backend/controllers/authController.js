@@ -86,13 +86,24 @@ exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
 
 //Register a user
 exports.registerUser = catchAsyncErrors( async(req, res, next) => {
+    
+
+    const {name, email, password} = req.body;
+
+    //whether user enterd email and password
+    if(!email || !password || !name){
+        return next(new ErrorHandler('Please enter name, email, and password properly', 400));
+    }
+
+    if(!req.body.avatar){
+        return next(new ErrorHandler('Please choose your profile picture', 400));
+    }
+
     const result = await cloudinary.v2.uploader.upload(req.body.avatar,{
         folder: "users",
         width: 150,
         crop: "scale"
     })
-
-    const {name, email, password} = req.body;
 
     const user = await User.create({
         name,
@@ -103,11 +114,6 @@ exports.registerUser = catchAsyncErrors( async(req, res, next) => {
             url: result.secure_url
         }
     })
-
-    //whether user enterd email and password
-    if(!email || !password || !name){
-        return next(new ErrorHandler('Please enter name, email, and password properly', 400));
-    }
 
     sendToken(user, 200, "", res)
 

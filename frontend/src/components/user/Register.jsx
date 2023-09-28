@@ -47,6 +47,7 @@ const Register = () => {
         formData.set('avatar', avatar)
 
         await dispatch(register(formData));
+        alert("Registered successfully")
         dispatch(loadUser())
         
     }

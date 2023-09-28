@@ -10,7 +10,7 @@ const errorMiddleware = require('./middlewares/errors')
 
 app.use(express.json({ limit: "10mb"}));
 app.use(bodyParser.json({ limit: "10mb"}));
-app.use(bodyParser.urlencoded({ limit: "10mb", extended: true, parameterLimit: 100000 }));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: true}));
 app.use(cookieParser());
 app.use(fileUpload());
 
