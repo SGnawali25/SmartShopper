@@ -37,7 +37,7 @@ export const login = (email, password) => async (dispatch) => {
             withCredentials: true,
         }
 
-        const {data} = await axios.post(`/api/v1/login`, {email, password} ,  config)
+        const {data} = await axios.post(`http://localhost:4000/api/v1/login`, {email, password} ,  config)
         const token = data.token;
         localStorage.setItem('token', token)
 
@@ -67,7 +67,7 @@ export const register = (userData) => async(dispatch) => {
             },
             withCredentials: true,
         }
-        const {data} = await axios.post(`/api/v1/register`,userData, config);
+        const {data} = await axios.post(`http://localhost:4000/api/v1/register`,userData, config);
 
         dispatch({
             type: REGISTER_USER_SUCCESS,
@@ -93,7 +93,7 @@ export const loadUser = () => async(dispatch) => {
 
         const config = {withCredentials: true}
 
-        const {data} = await axios.get(`/api/v1/me`, config);
+        const {data} = await axios.get(`http://localhost:4000/api/v1/me`, config);
 
         dispatch({
             type: LOAD_USER_SUCCESS,
@@ -119,7 +119,7 @@ export const logout = () => async(dispatch) => {
 
         const config = {withCredentials: true}
 
-        await axios.get(`/api/v1/logout`, config);
+        await axios.get(`http://localhost:4000/api/v1/logout`, config);
 
         dispatch({
             type: LOGOUT_SUCCESS,
@@ -148,7 +148,7 @@ export const forgotPassword = (email) => async(dispatch) => {
             withCredentials: true,
         }
 
-        const {data} = await axios.post(`/api/v1/password/reset`, {email}, config);
+        const {data} = await axios.post(`http://localhost:4000/api/v1/password/reset`, {email}, config);
 
         dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
@@ -174,7 +174,7 @@ export const resetPassword = (token, password, confirmPassword) => async(dispatc
             withCredentials: true,
         }
 
-        const {data} = await axios.put(`/api/v1/password/reset/${token}`, {password, confirmPassword}, config)
+        const {data} = await axios.put(`http://localhost:4000/api/v1/password/reset/${token}`, {password, confirmPassword}, config)
 
         dispatch({
             type: RESET_PASSWORD_SUCCESS,
@@ -201,7 +201,7 @@ export const changePassword = (currentPassword, newPassword, confirmNewPassword)
             withCredentials: true,
         }
 
-        const {data} = await axios.put(`/api/v1/password/change`, {currentPassword, newPassword, confirmNewPassword}, config);
+        const {data} = await axios.put(`http://localhost:4000/api/v1/password/change`, {currentPassword, newPassword, confirmNewPassword}, config);
 
         dispatch({
             type: CHANGE_PASSWORD_SUCCESS,
