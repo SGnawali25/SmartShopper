@@ -16,7 +16,7 @@ app.use(fileUpload());
 
 
 app.use("*",cors({
-    origin: true,
+    origin: "https://smartshopper.sandeshgnawali.com.np",
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
