@@ -154,9 +154,6 @@ exports.logout = catchAsyncErrors( async(req, res, next) => {
 
     const options = {
         expires: new Date(Date.now() + 10000),
-        httpOnly: true,
-        // secure: true,
-        // path:"/" 
            }
 
     await res.cookie('token', null, options)
