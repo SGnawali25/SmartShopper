@@ -16,7 +16,7 @@ app.use(fileUpload());
 
 
 app.use("*",cors({
-    origin: 'https://smartshopperapi.vercel.app',
+    origin: 'https://smartshopperapi.sandeshgnawali.com.np',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
