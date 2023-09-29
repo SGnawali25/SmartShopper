@@ -25,6 +25,7 @@ const Login = () => {
 
     useEffect(() => {
         if (isAuthenticated){
+            dispatch(loadUser());
             navigate('/')
         }
 
@@ -40,8 +41,8 @@ const Login = () => {
 
     const submitHandler = async(e) => {
         e.preventDefault();
-        await dispatch(login(email, password))
-        dispatch(loadUser());
+        dispatch(login(email, password))
+        
     }
   return (
       <Fragment>
