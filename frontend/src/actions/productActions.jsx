@@ -120,7 +120,8 @@ export const newReview = (reviewData) => async (dispatch) => {
         const config = {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            withCredentials: true,
         }
 
         const { data } = await axios.put(`${BackendPrefix}/review`, reviewData, config)
@@ -203,7 +204,8 @@ export const updateProduct = (id, productData) => async (dispatch) => {
         const config = {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            withCredentials: true,
         }
 
         const { data } = await axios.put(`${BackendPrefix}/admin/product/${id}`, productData, config)
