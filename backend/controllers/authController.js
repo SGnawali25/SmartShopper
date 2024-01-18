@@ -7,83 +7,6 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs')
 const cloudinary = require('cloudinary')
 
-
-//Forgot password
-exports.forgotPassword = catchAsyncErrors( async(req, res, next) => {
-
-    const user = await User.findOne({email: req.body.email});
-
-    if (!user){
-        return next(new ErrorHandler('User not found with this email.', 404));
-    }
-
-    //Get reset token getResetPasswordToken
-    const resetToken = user.getResetPasswordToken();
-
-    await user.save({validateBeforeSave: false});
-
-    //create reset password url
-    const resetPasswordURL = `${req.protocol}://smartshopper.sandeshgnawali.com.np/password/reset/${resetToken}`;
-
-    const message = `<p>Your password reset link is as follow:</p>\n\n<a href = ${resetPasswordURL}>Click here </a> to reset Password
-                    \n\n<p>If you have not requested this email, please contact us.</p>`;
-
-   try{
-    await sendEmail({
-        email: user.email,
-        subject: 'Website password recovery',
-        message  
-    })
-
-    res.status(200).json({
-        success: true,
-        message: `Email sent to: ${user.email}`
-    })
-
-   }catch(error){
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-
-    await user.save({validateBeforeSave: false});
-
-    return next(new ErrorHandler(error.message, 500))
-   }                 
-
-})
-
-//reset password
-exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
-    //hash url token
-    const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
-
-    const user = await User.findOne({
-        resetPasswordToken,
-        resetPasswordExpire: { $gt: Date.now()}
-    }).select('+password')
-
-
-    if(!user) {
-        return next(new ErrorHandler('Password reset token is invalid or has been expired',401))
-    }
-
-    if(req.body.password !== req.body.confirmPassword){
-        return next(new ErrorHandler('Password does not match', 404))
-    }
-
-    if (await user.comparePassword(req.body.password)){
-        return next(new ErrorHandler('Your old password and new password must be different', 404))
-    }
-
-    //setup password
-    user.password = req.body.password;
-
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-
-    await user.save();
-    sendToken(user, 200,"Passpord Changed successfully", res);
-})
-
 //Register a user
 exports.registerUser = catchAsyncErrors( async(req, res, next) => {
     
@@ -100,7 +23,7 @@ exports.registerUser = catchAsyncErrors( async(req, res, next) => {
     }
 
     const result = await cloudinary.v2.uploader.upload(req.body.avatar,{
-        folder: "users",
+        folder: "HimalayanPurity/Users",
         width: 150,
         crop: "scale"
     })
@@ -149,15 +72,15 @@ exports.loginUser = catchAsyncErrors( async(req, res, next) => {
     sendToken(user, 200, "", res)
 })
 
+
 //logout user
 exports.logout = catchAsyncErrors( async(req, res, next) => {
 
     const options = {
         expires: new Date(Date.now() + 10000),
-        httpOny: true,
-        path:"/",
-        secure: true
-           }
+        httpOnly: true,
+        secure: true,
+        path:"/"        }
 
     await res.cookie('token', null, options)
 
@@ -166,6 +89,7 @@ exports.logout = catchAsyncErrors( async(req, res, next) => {
         message: "logout succesful"
     })
 })
+
 
 
 // gives the user their own information
@@ -291,4 +215,80 @@ exports.deleteUser = catchAsyncErrors( async(req, res, next) => {
         user
     })
 
+})
+
+//Forgot password
+exports.forgotPassword = catchAsyncErrors( async(req, res, next) => {
+
+    const user = await User.findOne({email: req.body.email});
+
+    if (!user){
+        return next(new ErrorHandler('User not found with this email.', 404));
+    }
+
+    //Get reset token getResetPasswordToken
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save({validateBeforeSave: false});
+
+    //create reset password url
+    const resetPasswordURL = `${req.protocol}://smartshopper.sandeshgnawali.com.np/password/reset/${resetToken}`;
+
+    const message = `<p>Your password reset link is as follow:</p>\n\n<a href = ${resetPasswordURL}>Click here </a> to reset Password
+                    \n\n<p>If you have not requested this email, please contact us.</p>`;
+
+   try{
+    await sendEmail({
+        email: user.email,
+        subject: 'Website password recovery',
+        message  
+    })
+
+    res.status(200).json({
+        success: true,
+        message: `Email sent to: ${user.email}`
+    })
+
+   }catch(error){
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save({validateBeforeSave: false});
+
+    return next(new ErrorHandler(error.message, 500))
+   }                 
+
+})
+
+//reset password
+exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
+    //hash url token
+    const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now()}
+    }).select('+password')
+
+
+    if(!user) {
+        return next(new ErrorHandler('Password reset token is invalid or has been expired',401))
+    }
+
+    if(req.body.password !== req.body.confirmPassword){
+        return next(new ErrorHandler('Password does not match', 404))
+    }
+
+    if (await user.comparePassword(req.body.password)){
+        return next(new ErrorHandler('Your old password and new password must be different', 404))
+    }
+
+    //setup password
+    user.password = req.body.password;
+
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+    sendToken(user, 200,"Passpord Changed successfully", res);
 })

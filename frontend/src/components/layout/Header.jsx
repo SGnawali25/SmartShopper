@@ -15,6 +15,7 @@ const Header = () => {
 
     // const {user} = useSelector((state)=> state.auth);
     const {user, loading} = useSelector((state)=> state.auth);
+    const {cartItems} = useSelector((state)=> state.cart);
 
     const logoutHandler = () => {
         dispatch(logout());
@@ -39,7 +40,7 @@ const Header = () => {
             <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
                 <Link to= '/cart' style={{textDecoration: 'none'}}>
                     <span id="cart" className="ml-3">Cart</span>
-                    <span className="ml-1" id="cart_count">2</span>
+                    <span className="ml-1" id="cart_count">{cartItems.length || 0}</span>
                 </Link>
 
                 {user ? (
@@ -49,7 +50,7 @@ const Header = () => {
                                 <figure className="avatar avatar-nav">
                                     <img
                                         src={user.avatar && user.avatar.url || profile}
-                                        alt={user && user.name}
+                                        // alt={user && user.name}
                                         className="rounded-circle"
                                     />
                                 </figure>
@@ -59,7 +60,9 @@ const Header = () => {
                             <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
 
                                 {user && user.role === 'admin' && (
-                                    <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
+                                    <Fragment>
+                                        <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
+                                    </Fragment>
                                 )}
                                 <Link className="dropdown-item" to="/orders/me">Orders</Link>
                                 <Link className="dropdown-item" to="/me">Profile</Link>

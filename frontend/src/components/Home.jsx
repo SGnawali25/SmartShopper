@@ -31,6 +31,7 @@ const Home = () => {
     const dispatch = useDispatch()
 
     const { loading, error, products, productsCount, resPerPage } = useSelector(state => state.products)
+    
     const {isAuthenticated, user} = useSelector(state => state.auth);
 
     useEffect(() => {

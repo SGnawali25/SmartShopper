@@ -7,7 +7,7 @@ export default defineConfig({
 
   server: {
     proxy: {
-      '/api': 'https://smartshopperapi.sandeshgnawali.com.np'
+      '/api': 'http://localhost:4000/'
     }
   }
 })
@@ -15,5 +15,3 @@ export default defineConfig({
 // https://smartshopperapi.vercel.app
 
 //http://localhost:4000
-
-//https://smartshopperapi.sandeshgnawali.com.np

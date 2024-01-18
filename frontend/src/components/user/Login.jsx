@@ -25,7 +25,6 @@ const Login = () => {
 
     useEffect(() => {
         if (isAuthenticated){
-            dispatch(loadUser());
             navigate('/')
         }
 
@@ -41,8 +40,8 @@ const Login = () => {
 
     const submitHandler = async(e) => {
         e.preventDefault();
-        dispatch(login(email, password))
-        
+        await dispatch(login(email, password))
+        dispatch(loadUser());
     }
   return (
       <Fragment>
@@ -77,7 +76,6 @@ const Login = () => {
                                 </div>
 
                                 <Link to="/password/forgot" className="float-right mb-4">Forgot Password?</Link>
-
                                 <button
                                     id="login_button"
                                     type="submit"

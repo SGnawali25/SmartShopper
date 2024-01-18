@@ -27,8 +27,6 @@ const Register = () => {
 
     useEffect(() => {
         if (isAuthenticated){
-            alert.success("Registered successfully");
-            dispatch(loadUser())
             navigate('/');
         }
 
@@ -48,8 +46,9 @@ const Register = () => {
         formData.set('password', password);
         formData.set('avatar', avatar)
 
-        dispatch(register(formData));
-        
+        await dispatch(register(formData));
+        alert.success("Registered successfully")
+        dispatch(loadUser())
         
     }
 

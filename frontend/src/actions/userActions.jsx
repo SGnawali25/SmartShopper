@@ -21,8 +21,26 @@ import{
     RESET_PASSWORD_FAIL,
     CHANGE_PASSWORD_REQUEST,
     CHANGE_PASSWORD_SUCCESS,
-    CHANGE_PASSWORD_FAIL
+    CHANGE_PASSWORD_FAIL,
+    ALL_USERS_REQUEST,
+    ALL_USERS_SUCCESS,
+    ALL_USERS_FAIL,
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_SUCCESS,
+    USER_DETAILS_FAIL,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_FAIL,
+    UPDATE_USER_RESET,
+    UPDATE_USER_SUCCESS,
+    DELETE_USER_REQUEST,
+    DELETE_USER_RESET,
+    DELETE_USER_FAIL,
+    DELETE_USER_SUCCESS,
 } from '../constants/userConstants';
+
+
+const BackendPrefix = "http://localhost:4000/api/v1"
+// const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
 
 //Login
 export const login = (email, password) => async (dispatch) => {
@@ -37,9 +55,7 @@ export const login = (email, password) => async (dispatch) => {
             withCredentials: true,
         }
 
-        const {data} = await axios.post(`https://smartshopperapi.sandeshgnawali.com.np/api/v1/login`, {email, password} ,  config)
-        const token = data.token;
-        localStorage.setItem('token', token)
+        const {data} = await axios.post(`${BackendPrefix}/login`, {email, password} ,  config)
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -67,7 +83,7 @@ export const register = (userData) => async(dispatch) => {
             },
             withCredentials: true,
         }
-        const {data} = await axios.post(`https://smartshopperapi.sandeshgnawali.com.np/api/v1/register`,userData, config);
+        const {data} = await axios.post(`${BackendPrefix}/register`,userData, config);
 
         dispatch({
             type: REGISTER_USER_SUCCESS,
@@ -93,7 +109,8 @@ export const loadUser = () => async(dispatch) => {
 
         const config = {withCredentials: true}
 
-        const {data} = await axios.get(`https://smartshopperapi.sandeshgnawali.com.np/api/v1/me`, config);
+
+        const {data} = await axios.get(`${BackendPrefix}/me`, config);
 
         dispatch({
             type: LOAD_USER_SUCCESS,
@@ -119,8 +136,9 @@ export const logout = () => async(dispatch) => {
 
         const config = {withCredentials: true}
 
-        await axios.get(`https://smartshopperapi.sandeshgnawali.com.np/api/v1/logout`, config);
+        await axios.get(`${BackendPrefix}/logout`, config);
 
+        localStorage.clear()
         dispatch({
             type: LOGOUT_SUCCESS,
         })
@@ -148,7 +166,7 @@ export const forgotPassword = (email) => async(dispatch) => {
             withCredentials: true,
         }
 
-        const {data} = await axios.post(`https://smartshopperapi.sandeshgnawali.com.np/api/v1/password/reset`, {email}, config);
+        const {data} = await axios.post(`${BackendPrefix}/password/reset`, {email}, config);
 
         dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
@@ -174,7 +192,7 @@ export const resetPassword = (token, password, confirmPassword) => async(dispatc
             withCredentials: true,
         }
 
-        const {data} = await axios.put(`https://smartshopperapi.sandeshgnawali.com.np/api/v1/password/reset/${token}`, {password, confirmPassword}, config)
+        const {data} = await axios.put(`${BackendPrefix}/password/reset/${token}`, {password, confirmPassword}, config)
 
         dispatch({
             type: RESET_PASSWORD_SUCCESS,
@@ -201,8 +219,12 @@ export const changePassword = (currentPassword, newPassword, confirmNewPassword)
             withCredentials: true,
         }
 
-        const {data} = await axios.put(`https://smartshopperapi.sandeshgnawali.com.np/api/v1/password/change`, {currentPassword, newPassword, confirmNewPassword}, config);
+        const {data} = await axios.put(`${BackendPrefix}/password/change`, {currentPassword, newPassword, confirmNewPassword}, config);
 
+
+        const token = data.token;
+        localStorage.setItem('token', token)
+        
         dispatch({
             type: CHANGE_PASSWORD_SUCCESS,
             payload: data.message
@@ -210,6 +232,98 @@ export const changePassword = (currentPassword, newPassword, confirmNewPassword)
     } catch (error){
         dispatch({
             type: CHANGE_PASSWORD_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+// Get all users
+export const allUsers = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: ALL_USERS_REQUEST })
+
+        const { data } = await axios.get('/api/v1/admin/users')
+
+        dispatch({
+            type: ALL_USERS_SUCCESS,
+            payload: data.users
+        })
+
+    } catch (error) {
+        dispatch({
+            type: ALL_USERS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Update user - ADMIN
+export const updateUser = (id, userData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_USER_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/admin/user/${id}`, userData, config)
+
+        dispatch({
+            type: UPDATE_USER_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_USER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Get user details - ADMIN
+export const getUserDetails = (id) => async (dispatch) => {
+    try {
+
+        dispatch({ type: USER_DETAILS_REQUEST })
+
+
+        const { data } = await axios.get(`/api/v1/admin/user/${id}`)
+
+        dispatch({
+            type: USER_DETAILS_SUCCESS,
+            payload: data.user
+        })
+
+    } catch (error) {
+        dispatch({
+            type: USER_DETAILS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Delete user - ADMIN
+export const deleteUser = (id) => async (dispatch) => {
+    try {
+
+        dispatch({ type: DELETE_USER_REQUEST })
+
+        const { data } = await axios.delete(`/api/v1/admin/user/${id}`)
+
+        dispatch({
+            type: DELETE_USER_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DELETE_USER_FAIL,
             payload: error.response.data.message
         })
     }
