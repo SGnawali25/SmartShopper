@@ -223,7 +223,63 @@ export const updateProduct = (id, productData) => async (dispatch) => {
     }
 }
 
+// Get product reviews
+export const getProductReviews = (id) => async (dispatch) => {
+    try {
 
+        dispatch({ type: GET_REVIEWS_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+        }
+
+        const { data } = await axios.get(`${BackendPrefix}/reviews?id=${id}`, config)
+
+        dispatch({
+            type: GET_REVIEWS_SUCCESS,
+            payload: data.reviews
+        })
+
+    } catch (error) {
+
+        dispatch({
+            type: GET_REVIEWS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Delete product review
+export const deleteReview = (id, productId) => async (dispatch) => {
+    try {
+
+        dispatch({ type: DELETE_REVIEW_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true,
+        }
+
+        const { data } = await axios.delete(`${BackendPrefix}/reviews?id=${id}&productId=${productId}`, config)
+
+        dispatch({
+            type: DELETE_REVIEW_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+
+        dispatch({
+            type: DELETE_REVIEW_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 
 
 //clear error

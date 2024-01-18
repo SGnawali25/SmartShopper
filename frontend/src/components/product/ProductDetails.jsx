@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ListReviews from '../review/ListReviews'
 import { getProductDetails,newReview, clearErrors } from '../../actions/productActions'
 import { addItemToCart } from '../../actions/cartActions'
+import { NEW_REVIEW_RESET } from '../../constants/productConstant'
 
 const ProductDetails = () => {
 

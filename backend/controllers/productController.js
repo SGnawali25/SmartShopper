@@ -187,11 +187,8 @@ exports.getProductReview = catchAsyncErrors( async(req, res, next) => {
 exports.deleteReview = catchAsyncErrors(async(req, res, next) => {
     const product = await Product.findById(req.query.productId);
 
-    const reviews = product.reviews.filter( review => review._id.toString() !== req.query.reviewId.toString() || req.user.id.toString() !== review.user.toString());
+    const reviews = product.reviews.filter( review => review._id.toString() !== req.query.id.toString());
 
-    if (product.numOfReviews == reviews.length){
-        return next(new ErrorHandler("You cannot delete this review."));
-    }
     const numOfReviews = reviews.length;
     const ratings = reviews.reduce((acc, item) => item.rating + acc, 0)/numOfReviews || 5;
 

@@ -30,12 +30,13 @@ import{
     USER_DETAILS_FAIL,
     UPDATE_USER_REQUEST,
     UPDATE_USER_FAIL,
-    UPDATE_USER_RESET,
     UPDATE_USER_SUCCESS,
     DELETE_USER_REQUEST,
-    DELETE_USER_RESET,
     DELETE_USER_FAIL,
     DELETE_USER_SUCCESS,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS,
+    UPDATE_PROFILE_FAIL
 } from '../constants/userConstants';
 
 
@@ -237,6 +238,34 @@ export const changePassword = (currentPassword, newPassword, confirmNewPassword)
     }
 }
 
+// Update profile
+export const updateProfile = (userData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_PROFILE_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            withCredentials: true
+        }
+
+        const { data } = await axios.put(`${BackendPrefix}/me/update`, userData, config)
+
+        dispatch({
+            type: UPDATE_PROFILE_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PROFILE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 
 // Get all users
 export const allUsers = () => async (dispatch) => {
@@ -275,7 +304,8 @@ export const updateUser = (id, userData) => async (dispatch) => {
         const config = {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            withCredentials: true
         }
 
         const { data } = await axios.put(`${BackendPrefix}/admin/user/${id}`, userData, config)

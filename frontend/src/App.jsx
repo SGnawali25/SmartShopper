@@ -34,6 +34,8 @@ import OrderSuccess from './components/cart/OrderSuccess';
 import Payment from './components/cart/Payment';
 import OrdersList from './components/admin/OrdersList';
 import ProcessOrder from './components/admin/ProcessOrder';
+import ProductReviews from './components/admin/ProductReviews';
+import UpdateProfile from './components/user/UpdateProfile';
 
 
 function App() {
@@ -54,6 +56,7 @@ function App() {
             <Route path='/register' Component={Register}/>
             <Route path='/product/:id' Component={ProductDetails} exact/>
             <Route path='/me' Component={Profile} exact/>
+            <Route path='/me/update' Component={UpdateProfile} exact/>
             <Route path='/password/update' Component={ChangePassword} />
             <Route path='/admin/product' Component={NewProduct} exact/>
             <Route path="/orders/me" Component={ListOrders} exact />
@@ -74,6 +77,8 @@ function App() {
             <Route path="/admin/user/:id" Component={UpdateUser} exact/>
             <Route path="/admin/orders" Component={OrdersList} exact/>
             <Route path="/admin/order/:id" Component={ProcessOrder} exact/>
+            <Route path="/admin/reviews" Component={ProductReviews} exact/>
+            
 
           </Routes>
         </div>
