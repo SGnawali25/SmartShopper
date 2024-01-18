@@ -123,7 +123,7 @@ export const newReview = (reviewData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/review`, reviewData, config)
+        const { data } = await axios.put(`${BackendPrefix}/review`, reviewData, config)
 
         dispatch({
             type: NEW_REVIEW_SUCCESS,
@@ -144,7 +144,7 @@ export const getAdminProducts = () => async (dispatch) => {
 
         dispatch({ type: ADMIN_PRODUCTS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/admin/products`)
+        const { data } = await axios.get(`${BackendPrefix}/admin/products`)
 
         dispatch({
             type: ADMIN_PRODUCTS_SUCCESS,
@@ -166,7 +166,7 @@ export const deleteProduct = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_PRODUCT_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/admin/product/${id}`)
+        const { data } = await axios.delete(`${BackendPrefix}/admin/product/${id}`)
 
         dispatch({
             type: DELETE_PRODUCT_SUCCESS,
@@ -193,7 +193,7 @@ export const updateProduct = (id, productData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/admin/product/${id}`, productData, config)
+        const { data } = await axios.put(`${BackendPrefix}/admin/product/${id}`, productData, config)
 
         dispatch({
             type: UPDATE_PRODUCT_SUCCESS,

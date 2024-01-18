@@ -5,7 +5,7 @@ const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
 // const BackendPrefix = "http://localhost:4000/api/v1"
 
 export const addItemToCart = (id, quantity) => async (dispatch, getState) => {
-    const { data } = await axios.get(`${BackendPrefix}/api/v1/product/${id}`)
+    const { data } = await axios.get(`${BackendPrefix}/product/${id}`)
 
     dispatch({
         type: ADD_TO_CART,

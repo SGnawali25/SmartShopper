@@ -244,7 +244,7 @@ export const allUsers = () => async (dispatch) => {
 
         dispatch({ type: ALL_USERS_REQUEST })
 
-        const { data } = await axios.get('/api/v1/admin/users')
+        const { data } = await axios.get(`${BackendPrefix}/admin/users`)
 
         dispatch({
             type: ALL_USERS_SUCCESS,
@@ -271,7 +271,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/admin/user/${id}`, userData, config)
+        const { data } = await axios.put(`${BackendPrefix}/admin/user/${id}`, userData, config)
 
         dispatch({
             type: UPDATE_USER_SUCCESS,
@@ -293,7 +293,7 @@ export const getUserDetails = (id) => async (dispatch) => {
         dispatch({ type: USER_DETAILS_REQUEST })
 
 
-        const { data } = await axios.get(`/api/v1/admin/user/${id}`)
+        const { data } = await axios.get(`${BackendPrefix}/admin/user/${id}`)
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -314,7 +314,7 @@ export const deleteUser = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_USER_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/admin/user/${id}`)
+        const { data } = await axios.delete(`${BackendPrefix}/admin/user/${id}`)
 
         dispatch({
             type: DELETE_USER_SUCCESS,
