@@ -26,7 +26,7 @@ const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
 // const BackendPrefix = "http://localhost:4000/api/v1"
 
 
-export const createOrder = (order) => async (dispatch, getState) => {
+export const createOrder = (order) => async (dispatch) => {
     try {
 
         dispatch({ type: CREATE_ORDER_REQUEST })
@@ -34,7 +34,8 @@ export const createOrder = (order) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            withCredentials: true,
         }
 
         const { data } = await axios.post(`${BackendPrefix}/order/new`, order, config)
