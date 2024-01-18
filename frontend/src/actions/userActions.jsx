@@ -244,7 +244,14 @@ export const allUsers = () => async (dispatch) => {
 
         dispatch({ type: ALL_USERS_REQUEST })
 
-        const { data } = await axios.get(`${BackendPrefix}/admin/users`)
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        }
+
+        const { data } = await axios.get(`${BackendPrefix}/admin/users`, config)
 
         dispatch({
             type: ALL_USERS_SUCCESS,
@@ -292,8 +299,15 @@ export const getUserDetails = (id) => async (dispatch) => {
 
         dispatch({ type: USER_DETAILS_REQUEST })
 
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        }
 
-        const { data } = await axios.get(`${BackendPrefix}/admin/user/${id}`)
+
+        const { data } = await axios.get(`${BackendPrefix}/admin/user/${id}`, config)
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -314,7 +328,14 @@ export const deleteUser = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_USER_REQUEST })
 
-        const { data } = await axios.delete(`${BackendPrefix}/admin/user/${id}`)
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        }
+
+        const { data } = await axios.delete(`${BackendPrefix}/admin/user/${id}`, config)
 
         dispatch({
             type: DELETE_USER_SUCCESS,

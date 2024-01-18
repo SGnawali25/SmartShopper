@@ -143,8 +143,14 @@ export const getAdminProducts = () => async (dispatch) => {
     try {
 
         dispatch({ type: ADMIN_PRODUCTS_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        }
 
-        const { data } = await axios.get(`${BackendPrefix}/admin/products`)
+        const { data } = await axios.get(`${BackendPrefix}/admin/products`, config)
 
         dispatch({
             type: ADMIN_PRODUCTS_SUCCESS,
@@ -166,7 +172,14 @@ export const deleteProduct = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_PRODUCT_REQUEST })
 
-        const { data } = await axios.delete(`${BackendPrefix}/admin/product/${id}`)
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        }
+
+        const { data } = await axios.delete(`${BackendPrefix}/admin/product/${id}`, config)
 
         dispatch({
             type: DELETE_PRODUCT_SUCCESS,

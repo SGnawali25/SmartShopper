@@ -58,7 +58,14 @@ export const myOrders = () => async (dispatch) => {
 
         dispatch({ type: MY_ORDERS_REQUEST });
 
-        const { data } = await axios.get(`${BackendPrefix}/orders/me`)
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        }
+
+        const { data } = await axios.get(`${BackendPrefix}/orders/me`, config)
 
         dispatch({
             type: MY_ORDERS_SUCCESS,
@@ -79,7 +86,14 @@ export const getOrderDetails = (id) => async (dispatch) => {
 
         dispatch({ type: ORDER_DETAILS_REQUEST });
 
-        const { data } = await axios.get(`${BackendPrefix}/order/${id}`)
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        }
+
+        const { data } = await axios.get(`${BackendPrefix}/order/${id}`, config)
 
         dispatch({
             type: ORDER_DETAILS_SUCCESS,
@@ -100,8 +114,14 @@ export const allOrders = () => async (dispatch) => {
 
         dispatch({ type: ALL_ORDERS_REQUEST });
 
-        const { data } = await axios.get(`${BackendPrefix}/admin/orders`)
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        }
 
+        const { data } = await axios.get(`${BackendPrefix}/admin/orders`, config)
         dispatch({
             type: ALL_ORDERS_SUCCESS,
             payload: data
@@ -148,7 +168,14 @@ export const deleteOrder = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_ORDER_REQUEST })
 
-        const { data } = await axios.delete(`${BackendPrefix}/admin/order/${id}`)
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        }
+
+        const { data } = await axios.delete(`${BackendPrefix}/admin/order/${id}`, config)
 
         dispatch({
             type: DELETE_ORDER_SUCCESS,
