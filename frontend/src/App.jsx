@@ -16,7 +16,7 @@ import NewProduct from './components/admin/NewProduct'
 
 import ListOrders from './components/order/ListOrders';
 
-import Cart from './components/cart/cart';
+import Cart from './components/cart/Cart';
 import Shipping from './components/cart/Shipping';
 
 import ForgotPassword from './components/user/ForgotPassword';
