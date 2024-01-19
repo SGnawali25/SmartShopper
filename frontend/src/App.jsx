@@ -36,6 +36,7 @@ import OrdersList from './components/admin/OrdersList';
 import ProcessOrder from './components/admin/ProcessOrder';
 import ProductReviews from './components/admin/ProductReviews';
 import UpdateProfile from './components/user/UpdateProfile';
+import OrderDetails from './components/order/OrderDetails';
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
             <Route path='/password/update' Component={ChangePassword} />
             <Route path='/admin/product' Component={NewProduct} exact/>
             <Route path="/orders/me" Component={ListOrders} exact />
+            <Route path="/order/:id" Component={OrderDetails} exact />
 
             <Route path='/cart' Component={Cart} exact/>
             <Route path='/shipping' Component={Shipping} exact/>

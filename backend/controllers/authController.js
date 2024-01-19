@@ -23,7 +23,7 @@ exports.registerUser = catchAsyncErrors( async(req, res, next) => {
     }
 
     const result = await cloudinary.v2.uploader.upload(req.body.avatar,{
-        folder: "HimalayanPurity/Users",
+        folder: "SmartShopper/Users",
         width: 150,
         crop: "scale"
     })
@@ -141,11 +141,12 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     if (req.body.avatar !== '') {
         const user = await User.findById(req.user.id)
 
+        //this deletes the old profile picture
         const image_id = user.avatar.public_id;
         const res = await cloudinary.v2.uploader.destroy(image_id);
 
         const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: 'avatars',
+            folder: 'SmartShopper/Users',
             width: 150,
             crop: "scale"
         })
@@ -225,6 +226,11 @@ exports.deleteUser = catchAsyncErrors( async(req, res, next) => {
     if(!user){
         return next(new ErrorHandler(`User not found with id ${req.params.id}`, 404));
     }
+
+    await cloudinary.v2.api
+                    .delete_resources([`${user.avatar.public_id}`], 
+                    { type: 'upload', resource_type: 'image' })
+
 
 
     res.status(200).json({

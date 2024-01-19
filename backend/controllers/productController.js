@@ -15,7 +15,7 @@ exports.newProduct = catchAsyncErrors( async(req, res, next) => {
 
     for (let i = 0; i < images.length; i++) {
         const result = await cloudinary.v2.uploader.upload(images[i], {
-            folder: 'HimalayanPurity/Products'
+            folder: 'SmartShopper/Products'
         });
         imagesLinks.push({
             public_id: result.public_id,
@@ -98,6 +98,27 @@ exports.updateProductById = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler('Product not found', 404));
     }
 
+    console.log(req.body.images)
+
+
+    if (req.body.images){
+        let images = []
+        images = req.body.images;
+        let imagesLinks = [];
+
+        for (let i = 0; i < images.length; i++) {
+            const result = await cloudinary.v2.uploader.upload(images[i], {
+                folder: 'SmartShopper/Products'
+            });
+            imagesLinks.push({
+                public_id: result.public_id,
+                url: result.secure_url
+            })
+        }
+
+        req.body.images = imagesLinks
+    }
+
     
 
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -121,6 +142,12 @@ exports.deleteProductById = catchAsyncErrors(async (req, res, next) => {
 
     if (!product) {
         return next(new ErrorHandler('Product not found', 404));
+    }
+
+    for (let i = 0; i < product.images.length; i++) {
+        await cloudinary.v2.api
+                    .delete_resources([`${product.images[i].public_id}`], 
+                    { type: 'upload', resource_type: 'image' })
     }
 
 

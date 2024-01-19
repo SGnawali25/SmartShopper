@@ -33,8 +33,8 @@ import {
 
 } from '../constants/productConstant'
 
-// const BackendPrefix = "http://localhost:4000/api/v1"
-const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
+const BackendPrefix = "http://localhost:4000/api/v1"
+// const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
 
 export const getProducts = (keyword = "", currentPage = 1, price) => async (dispatch) => {
     try{

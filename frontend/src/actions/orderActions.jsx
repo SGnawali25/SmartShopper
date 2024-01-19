@@ -22,8 +22,8 @@ import {
     CLEAR_ERRORS
 } from '../constants/orderConstants'
 
-const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
-// const BackendPrefix = "http://localhost:4000/api/v1"
+// const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
+const BackendPrefix = "http://localhost:4000/api/v1"
 
 
 export const createOrder = (order) => async (dispatch) => {
@@ -145,10 +145,11 @@ export const updateOrder = (id, orderData) => async (dispatch) => {
         const config = {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            withCredentials: true
         }
 
-        const { data } = await axios.put(`${BackendPrefix}/admin/order/${id}`, orderData, config)
+        const { data } = await axios.put(`${BackendPrefix}/admin/update/order/${id}`, orderData, config)
 
         dispatch({
             type: UPDATE_ORDER_SUCCESS,
