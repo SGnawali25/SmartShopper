@@ -22,8 +22,8 @@ import {
     CLEAR_ERRORS
 } from '../constants/orderConstants'
 
-// const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
-const BackendPrefix = "http://localhost:4000/api/v1"
+const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
+// const BackendPrefix = "http://localhost:4000/api/v1"
 
 
 export const createOrder = (order) => async (dispatch) => {
