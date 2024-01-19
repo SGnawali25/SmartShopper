@@ -17,8 +17,13 @@ const Header = () => {
     const {user, loading} = useSelector((state)=> state.auth);
     const {cartItems} = useSelector((state)=> state.cart);
 
+    const clearTokenCookie = () =>{
+        document.cookie ='token=null; expires=Date.now()';
+    }
+
     const logoutHandler = () => {
         dispatch(logout());
+        clearTokenCookie();
         alert.success('Logged out successfully.');
     }
     
