@@ -18,7 +18,7 @@ const Header = () => {
     const {cartItems} = useSelector((state)=> state.cart);
 
     const clearTokenCookie = () =>{
-        document.cookie ='token=null; expires=Date.now()';
+        document.cookie ='token=null; expires=Date.now(); path=/; Domain=smartshopperapi.sandeshgnawali.com.np';
     }
 
     const logoutHandler = () => {
