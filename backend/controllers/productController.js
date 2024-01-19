@@ -102,6 +102,12 @@ exports.updateProductById = catchAsyncErrors(async (req, res, next) => {
 
 
     if (req.body.images){
+
+        for (let i = 0; i < product.images.length; i++) {
+            await cloudinary.v2.api
+                        .delete_resources([`${product.images[i].public_id}`], 
+                        { type: 'upload', resource_type: 'image' })
+        }
         let images = []
         images = req.body.images;
         let imagesLinks = [];
