@@ -82,9 +82,8 @@ exports.logout = catchAsyncErrors( async(req, res, next) => {
         secure: true,
         path:"/"        }
 
-    await res.cookie('token', null, options)
 
-    res.status(200).json({
+    res.status(200).cookie('token', null, options).json({
         success: true,
         message: "logout succesful"
     })
