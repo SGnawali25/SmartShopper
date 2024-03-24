@@ -77,7 +77,7 @@ exports.loginUser = catchAsyncErrors( async(req, res, next) => {
 exports.logout = catchAsyncErrors( async(req, res, next) => {
 
     const options = {
-        expires: new Date(Date.now() + 10000),
+        expires: new Date(Date.now()),
         httpOnly: true,
         secure: true,
         path:"/"        }
