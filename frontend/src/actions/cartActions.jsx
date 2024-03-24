@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { ADD_TO_CART, REMOVE_ITEM_CART, SAVE_SHIPPING_INFO } from '../constants/cartConstants'
 
-const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
-// const BackendPrefix = "http://localhost:4000/api/v1"
+const BackendPrefix = import.meta.env.VITE_APP_API_KEY;
 
 export const addItemToCart = (id, quantity) => async (dispatch, getState) => {
     const { data } = await axios.get(`${BackendPrefix}/product/${id}`)

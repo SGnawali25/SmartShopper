@@ -11,7 +11,3 @@ export default defineConfig({
     }
   }
 })
-
-// https://smartshopperapi.vercel.app
-
-//http://localhost:4000

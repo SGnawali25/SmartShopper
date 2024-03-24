@@ -22,8 +22,7 @@ import {
     CLEAR_ERRORS
 } from '../constants/orderConstants'
 
-const BackendPrefix = "https://smartshopperapi.sandeshgnawali.com.np/api/v1"
-// const BackendPrefix = "http://localhost:4000/api/v1"
+const BackendPrefix = import.meta.env.VITE_APP_API_KEY;
 
 
 export const createOrder = (order) => async (dispatch) => {
