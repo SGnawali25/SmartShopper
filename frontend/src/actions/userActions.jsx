@@ -138,7 +138,6 @@ export const logout = () => async(dispatch) => {
 
         await axios.get(`${BackendPrefix}/logout`, config);
 
-        localStorage.clear()
         dispatch({
             type: LOGOUT_SUCCESS,
         })
