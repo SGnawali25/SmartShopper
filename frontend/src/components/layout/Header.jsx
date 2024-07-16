@@ -64,7 +64,7 @@ const Header = () => {
 
                             <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
 
-                                {user && user.role === 'admin' && (
+                                {user && (
                                     <Fragment>
                                         <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
                                     </Fragment>

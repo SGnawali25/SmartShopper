@@ -12,8 +12,11 @@ const Cart = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const alert = useAlert();
 
     const { cartItems } = useSelector(state => state.cart)
+    const {user} = useSelector(state => state.auth);
+
 
     const removeCartItemHandler = (id) => {
         dispatch(removeItemFromCart(id))
@@ -38,7 +41,14 @@ const Cart = () => {
     }
 
     const checkoutHandler = () => {
-        navigate('/shipping')
+        if(!user){
+            alert.error("Please Login to order!!!");
+            navigate("/lgn")
+        } else {
+            navigate('/shipping')
+        }
+
+        
     }
 
     return (

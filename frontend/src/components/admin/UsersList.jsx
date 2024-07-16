@@ -21,6 +21,7 @@ const UsersList = () => {
 
     const { loading, error, users } = useSelector(state => state.allUsers);
     const { isDeleted } = useSelector(state => state.user)
+    const userError = useSelector(state => state.user.error)
 
     useEffect(() => {
         dispatch(allUsers());
@@ -30,13 +31,18 @@ const UsersList = () => {
             dispatch(clearErrors())
         }
 
+        if (userError) {
+            alert.error(userError);
+            dispatch(clearErrors())
+        }
+
         if (isDeleted) {
             alert.success('User deleted successfully');
             dispatch({ type: DELETE_USER_RESET })
         }
 
 
-    }, [dispatch, alert, error])
+    }, [dispatch, alert, error, userError])
 
     const deleteUserHandler = async(id) => {
         await dispatch(deleteUser(id))
