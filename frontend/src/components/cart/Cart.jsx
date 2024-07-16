@@ -18,14 +18,6 @@ const Cart = () => {
     const { cartItems } = useSelector(state => state.cart)
     const {user, isAuthenticated, error} = useSelector(state => state.auth);
 
-    useEffect(() =>{
-        dispatch(loadUser())
-
-        if(!isAuthenticated){
-            alert.error(error);
-            navigate("/lgn")
-        }
-    }, [dispatch, user ])
 
 
     const removeCartItemHandler = (id) => {
