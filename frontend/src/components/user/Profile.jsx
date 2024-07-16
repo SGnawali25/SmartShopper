@@ -1,15 +1,26 @@
-import React, {Fragment, fragment} from 'react'
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import React, {Fragment, fragment, useEffect} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Loader from '../layout/Loader'
 import MetaData from '../layout/MetaData'
 
 import profile from "/images/profile.png" 
+import { loadUser } from '../../actions/userActions'
 
 
 const Profile = () => {
-    const {user, loading} = useSelector((state) => state.auth)
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const {user, loading, error, isAuthenticated} = useSelector((state) => state.auth)
+    
+    useEffect(() => {
+        dispatch(loadUser())
+        if (!isAuthenticated){
+
+            navigate("/lgn")
+        }
+    }, [dispatch, isAuthenticated]);
   return (
     <Fragment>
         {loading ? <Loader/> : (

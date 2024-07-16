@@ -110,10 +110,6 @@ exports.logout = catchAsyncErrors( async(req, res, next) => {
 exports.userProfile = catchAsyncErrors( async(req, res, next) => {
     const user = await User.findById(req.user.id);
 
-    if (user.token !== req.cookies.token){
-        return next(new ErrorHandler("Please Login Again to view the resources", 403))
-    }
-
     res.status(200).json({
         success: true,
         user

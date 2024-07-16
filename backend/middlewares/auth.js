@@ -15,7 +15,13 @@ exports.isAuthenticatedUser = catchAsyncErrors( async(req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
 
-    req.user = await User.findById(decoded.id);
+    const user = await User.findById(decoded.id);
+    
+    if (user.token !== req.cookies.token){
+        return next(new ErrorHandler("Please Login Again to view the resources", 403))
+    }
+
+    req.user = user;
 
 
     next()

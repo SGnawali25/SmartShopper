@@ -13,18 +13,24 @@ const ListOrders = () => {
 
     const alert = useAlert();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { loading, error, orders } = useSelector(state => state.myOrders);
     const {user} = useSelector(state => state.auth);
 
     useEffect(() => {
-        dispatch(myOrders());
+        
 
         if (error) {
             alert.error(error);
             dispatch(clearErrors())
+            navigate("/lgn")
+
         }
-    }, [dispatch, alert, error])
+
+        dispatch(myOrders());
+
+    }, [dispatch, alert, error]);
 
     const setOrders = () => {
         const data = {
@@ -58,7 +64,7 @@ const ListOrders = () => {
             rows: []
         }
 
-        orders.forEach(order => {
+        {orders && orders.forEach(order => {
             data.rows.push({
                 id: order._id,
                 numOfItems: order.orderItems.length,
@@ -71,7 +77,7 @@ const ListOrders = () => {
                         <i className="fa fa-eye"></i>
                     </Link>
             })
-        })
+        })}
 
         return data;
     }

@@ -36,7 +36,7 @@ const Home = () => {
 
     useEffect(() => {
         if (error) {
-            return alert.error(error)
+            alert.error(error)
         }
         dispatch(getProducts(keyword, currentPage, price));
 

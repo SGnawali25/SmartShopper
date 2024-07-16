@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import MetaData from '../layout/MetaData'
 import Loader from '../layout/Loader'
@@ -7,30 +7,43 @@ import Sidebar from './Sidebar'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getAdminProducts } from '../../actions/productActions'
+import { getAdminProducts, clearErrors } from '../../actions/productActions'
 import { allOrders } from '../../actions/orderActions'
 import { allUsers } from '../../actions/userActions'
+import { useAlert } from 'react-alert';
 
 const Dashboard = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const alert = useAlert();
 
-    const { products } = useSelector(state => state.products)
+    const { products, error } = useSelector(state => state.products)
     const { users } = useSelector(state => state.allUsers)
     const { orders, totalAmount, loading } = useSelector(state => state.allOrders);
+    const {isAuthenticated} = useSelector(state => state.auth)
 
     let outOfStock = 0;
-    products.forEach(product => {
-        if (product.stock === 0) {
-            outOfStock += 1;
-        }
-    })
+
+    if (products){
+        products.forEach(product => {
+            if (product.stock === 0) {
+                outOfStock += 1;
+            }
+        })
+    }
+    
 
     useEffect(() => {
+        if (error){
+            alert.error(error)
+            navigate("/lgn")
+            dispatch(clearErrors())
+        }
         dispatch(getAdminProducts())
         dispatch(allOrders())
         dispatch(allUsers())
-    }, [dispatch])
+    }, [dispatch, error])
 
     return (
         <Fragment>

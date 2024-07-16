@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
@@ -7,6 +7,7 @@ import MetaData from '../layout/MetaData'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemToCart, removeItemFromCart } from '../../actions/cartActions'
+import { loadUser } from '../../actions/userActions'
 
 const Cart = () => {
 
@@ -15,7 +16,16 @@ const Cart = () => {
     const alert = useAlert();
 
     const { cartItems } = useSelector(state => state.cart)
-    const {user} = useSelector(state => state.auth);
+    const {user, isAuthenticated, error} = useSelector(state => state.auth);
+
+    useEffect(() =>{
+        dispatch(loadUser())
+
+        if(!isAuthenticated){
+            alert.error(error);
+            navigate("/lgn")
+        }
+    }, [dispatch, user ])
 
 
     const removeCartItemHandler = (id) => {
