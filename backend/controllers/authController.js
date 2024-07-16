@@ -6,6 +6,9 @@ const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs')
 const cloudinary = require('cloudinary')
+const jwt = require('jsonwebtoken');
+const user = require('../models/user');
+
 
 //Register a user
 exports.registerUser = catchAsyncErrors( async(req, res, next) => {
@@ -82,6 +85,18 @@ exports.logout = catchAsyncErrors( async(req, res, next) => {
         secure: true,
         path:"/"        }
 
+    const {token} = await req.cookies;
+
+    if (!token){
+        return next(new ErrorHandler("Please login!!!", 401))
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+
+    const user = await User.findById(decoded.id);
+    user.token = ""
+    await user.save()
 
     res.status(200).cookie('token', null, options).json({
         success: true,
@@ -94,6 +109,10 @@ exports.logout = catchAsyncErrors( async(req, res, next) => {
 // gives the user their own information
 exports.userProfile = catchAsyncErrors( async(req, res, next) => {
     const user = await User.findById(req.user.id);
+
+    if (user.token !== req.cookies.token){
+        return next(new ErrorHandler("Please Login Again to view the resources", 403))
+    }
 
     res.status(200).json({
         success: true,
