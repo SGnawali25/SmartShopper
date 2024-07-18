@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import Search from "./Search";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {useDispatch, useSelector} from "react-redux";
 import {useAlert} from "react-alert";
@@ -12,20 +12,23 @@ const Header = () => {
 
     const alert = useAlert();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // const {user} = useSelector((state)=> state.auth);
-    const {user, loading} = useSelector((state)=> state.auth);
+    const {user, loading, isAuthenticated} = useSelector((state)=> state.auth);
     const {cartItems} = useSelector((state)=> state.cart);
 
-    const clearTokenCookie = () =>{
-        document.cookie ='token=null; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=smartshopperapi.sandeshgnawali.com.np';
-    }
 
     const logoutHandler = () => {
         dispatch(logout());
-        clearTokenCookie();
         alert.success('Logged out successfully.');
     }
+
+    useEffect(() => {
+        if (!isAuthenticated){
+            navigate("/lgn")
+        }
+    }, [dispatch, isAuthenticated]);
     
   return (
     <Fragment>

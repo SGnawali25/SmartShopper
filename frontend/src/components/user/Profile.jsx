@@ -14,13 +14,7 @@ const Profile = () => {
     const navigate = useNavigate();
     const {user, loading, error, isAuthenticated} = useSelector((state) => state.auth)
     
-    useEffect(() => {
-        dispatch(loadUser())
-        if (!isAuthenticated){
-
-            navigate("/lgn")
-        }
-    }, [dispatch, isAuthenticated]);
+    
   return (
     <Fragment>
         {loading ? <Loader/> : (
