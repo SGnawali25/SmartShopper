@@ -43,12 +43,6 @@ function App() {
 
   useEffect(() => {
     store.dispatch(loadUser());
-
-    const interval = setInterval(() => {
-      store.dispatch(loadUser());
-  }, 60000); // Load user every 60 seconds
-
-  return () => clearInterval(interval);
   },[])
 
   return (
