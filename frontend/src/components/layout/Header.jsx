@@ -23,12 +23,6 @@ const Header = () => {
         dispatch(logout());
         alert.success('Logged out successfully.');
     }
-
-    useEffect(() => {
-        if (!isAuthenticated){
-            navigate("/lgn")
-        }
-    }, [dispatch, isAuthenticated]);
     
   return (
     <Fragment>
