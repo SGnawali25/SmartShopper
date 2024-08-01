@@ -32,7 +32,6 @@ import UpdateProduct from "./components/admin/UpdateProduct";
 import UpdateUser from "./components/admin/UpdateUser";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
 import OrderSuccess from "./components/cart/OrderSuccess";
-import Payment from "./components/cart/Payment";
 import PaymentWrapper from "./components/cart/PaymentWrapper";
 import OrdersList from "./components/admin/OrdersList";
 import ProcessOrder from "./components/admin/ProcessOrder";
