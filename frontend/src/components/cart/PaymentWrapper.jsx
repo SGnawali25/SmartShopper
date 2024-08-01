@@ -39,6 +39,8 @@ const PaymentWrapper = () => {
     getStripeApiKey();
   }, []);
 
+  console.log(typeof stripeApiKey)
+
   return (
     <>
     {loading ? <Loader /> : (
