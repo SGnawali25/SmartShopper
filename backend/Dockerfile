@@ -17,7 +17,7 @@ COPY models/product.js models/product.js
 COPY models/user.js models/user.js
 COPY routes/auth.js routes/auth.js
 COPY routes/order.js routes/order.js
-COPY routes/payment.js routes/payetment.js
+COPY routes/payment.js routes/payment.js
 COPY routes/product.js routes/product.js
 COPY routes/welcome.js routes/welcome.js
 COPY utils/apiFeatures.js utils/apiFeatures.js
