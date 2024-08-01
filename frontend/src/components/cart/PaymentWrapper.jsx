@@ -19,13 +19,16 @@ const PaymentWrapper = () => {
 
     async function getStripeApiKey() {
 
-      const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        withCredentials: true,
-      }
+      
       try{
+
+        const config = {
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          withCredentials: true,
+        }
+        
         const url = `${BackendPrefix}/stripeapi`
         const { data } = await axios.get(url, config);
         console.log(url)
