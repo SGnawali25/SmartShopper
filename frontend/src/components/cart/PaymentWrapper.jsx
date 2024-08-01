@@ -26,7 +26,9 @@ const PaymentWrapper = () => {
         withCredentials: true,
       }
       try{
-        const { data } = await axios.get(`${BackendPrefix}/stripeapi`, config);
+        const url = `${BackendPrefix}/stripeapi`
+        const { data } = await axios.get(url, config);
+        console.log(url)
         console.log(data)
         setStripeApiKey(data.stripeApiKey);
         setLoading(false)
