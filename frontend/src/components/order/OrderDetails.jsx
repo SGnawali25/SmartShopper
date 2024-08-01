@@ -28,7 +28,7 @@ const OrderDetails = ({ match }) => {
 
     const shippingDetails = shippingInfo && `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.country}`
 
-    const isPaid = paymentInfo && paymentInfo.status === 'true' ? true : false
+    const isPaid = paymentInfo && paymentInfo.status === 'succeeded' ? true : false
 
     return (
         <Fragment>
