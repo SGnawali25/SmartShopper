@@ -39,6 +39,7 @@ const PaymentWrapper = () => {
     getStripeApiKey();
   }, []);
 
+  console.log(stripeApiKey)
   console.log(typeof stripeApiKey)
 
   return (
