@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ADD_TO_CART, REMOVE_ITEM_CART, SAVE_SHIPPING_INFO } from '../constants/cartConstants'
+import { ADD_TO_CART, REMOVE_ITEM_CART, SAVE_SHIPPING_INFO, EMPTY_THE_CART} from '../constants/cartConstants'
 
 const BackendPrefix = import.meta.env.VITE_APP_API_KEY;
 
@@ -40,5 +40,13 @@ export const saveShippingInfo = (data) => async (dispatch) => {
     })
 
     localStorage.setItem('shippingInfo', JSON.stringify(data))
+
+}
+
+export const clearCart = () => async(dispatch) => {
+    
+        dispatch({
+            type: EMPTY_THE_CART,
+        })
 
 }
