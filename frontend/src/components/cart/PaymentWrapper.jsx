@@ -1,10 +1,11 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import Payment from './Payment';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAlert } from 'react-alert';
+import Payment from './Payment';
+import Loader from "../layout/Loader"
 
 const PaymentWrapper = () => {
   const BackendPrefix = import.meta.env.VITE_APP_API_KEY;
@@ -12,6 +13,7 @@ const PaymentWrapper = () => {
   const alert = useAlert();
 
   const [stripeApiKey, setStripeApiKey] = useState("");
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
 
@@ -26,6 +28,7 @@ const PaymentWrapper = () => {
       try{
         const { data } = await axios.get(`${BackendPrefix}/stripeapi`, config);
         setStripeApiKey(data.stripeApiKey);
+        setLoading(false)
 
       } catch(error){
         alert.error(error)
@@ -37,9 +40,13 @@ const PaymentWrapper = () => {
   }, []);
 
   return (
-    <Elements stripe ={loadStripe(stripeApiKey)}>
-      <Payment />
-    </Elements>
+    <>
+    {loading ? <Loader /> : (
+      <Elements stripe ={loadStripe(stripeApiKey)}>
+        <Payment />
+      </Elements>
+    )}
+    </>
   );
 };
 
