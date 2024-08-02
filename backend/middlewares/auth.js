@@ -7,22 +7,24 @@ const jwt = require('jsonwebtoken')
 exports.isAuthenticatedUser = catchAsyncErrors( async(req, res, next) => {
     
     const {token} = await req.cookies;
-
     if (!token){
         return next(new ErrorHandler("Please login to view the resources", 401))
     }
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
 
     const user = await User.findById(decoded.id);
-    
-    if (user.token !== req.cookies.token){
-        return next(new ErrorHandler("Please Login Again to view the resources", 403))
+
+    const tokenDetails = user.tokens.find(t => t.token === token);
+
+    if (!tokenDetails){
+        return next(new ErrorHandler("Invalid Token", 401))
     }
 
+    if (new Date(Date.now()) > tokenDetails.expiry) {
+        return next(new ErrorHandler("Your session has expired!", 401))
+    }
     req.user = user;
-
 
     next()
 

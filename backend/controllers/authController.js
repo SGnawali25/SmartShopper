@@ -70,7 +70,9 @@ exports.loginUser = catchAsyncErrors( async(req, res, next) => {
         return next(new ErrorHandler("Invalid email or password", 401));
     }
 
-
+    const newTokens = user.tokens.filter(t => t.expiry > new Date(Date.now()))
+    user.tokens = newTokens;
+    await user.save();
 
     sendToken(user, 200, "", res)
 })
@@ -95,7 +97,8 @@ exports.logout = catchAsyncErrors( async(req, res, next) => {
 
 
     const user = await User.findById(decoded.id);
-    user.token = ""
+    const newTokens = user.tokens.filter(t => t.token !== token)
+    user.tokens = newTokens
     await user.save()
 
     res.status(200).cookie('token', null, options).json({
@@ -137,6 +140,7 @@ exports.changePassword = catchAsyncErrors( async(req, res, next) => {
     }
 
     user.password = req.body.newPassword;
+    user.tokens = [];
     await user.save()
     sendToken(user,200 ,"Password Updated Successfully", res)
 
@@ -256,7 +260,6 @@ exports.deleteUser = catchAsyncErrors( async(req, res, next) => {
 
 //Forgot password
 exports.forgotPassword = catchAsyncErrors( async(req, res, next) => {
-
     const user = await User.findOne({email: req.body.email});
 
     if (!user){
@@ -273,6 +276,7 @@ exports.forgotPassword = catchAsyncErrors( async(req, res, next) => {
 
     const message = `<p>Your password reset link is as follow:</p>\n\n<a href = ${resetPasswordURL}>Click here </a> to reset Password
                     \n\n<p>If you have not requested this email, please contact us.</p>`;
+
 
    try{
     await sendEmail({
@@ -299,7 +303,6 @@ exports.forgotPassword = catchAsyncErrors( async(req, res, next) => {
 
 //reset password
 exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
-    //hash url token
     const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
     const user = await User.findOne({
@@ -307,6 +310,7 @@ exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
         resetPasswordExpire: { $gt: Date.now()}
     }).select('+password')
 
+    
 
     if(!user) {
         return next(new ErrorHandler('Password reset token is invalid or has been expired',401))
@@ -320,11 +324,13 @@ exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
         return next(new ErrorHandler('Your old password and new password must be different', 404))
     }
 
+
     //setup password
     user.password = req.body.password;
 
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
+    user.tokens = [];
 
     await user.save();
     sendToken(user, 200,"Passpord Changed successfully", res);

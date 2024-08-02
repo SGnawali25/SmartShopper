@@ -40,9 +40,10 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    token:{
-        type:String,
-    },
+    tokens:[{
+        token: String,
+        expiry: Date
+    }],
     resetPasswordToken: String,
     resetPasswordExpire: Date
 
