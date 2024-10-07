@@ -11,8 +11,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 
 
 const id = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
-console.log(import.meta.env.VITE_APP_API_KEY)
-console.log(import.meta.env.VITE_APP_GOOGLE_CLIENT_ID)
+
 const options = {
   timeout: 5000,
   position: positions.BOTTOM_CENTER,
