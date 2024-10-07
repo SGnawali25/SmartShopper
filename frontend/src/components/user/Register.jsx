@@ -26,6 +26,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
+      alert.success("Registered successfully");
       navigate("/");
     }
 
@@ -40,7 +41,6 @@ const Register = () => {
     const formData = new FormData()
     formData.set("credential", credential)
     await dispatch(register(formData));
-    alert.success("Registered successfully");
     dispatch(loadUser());
   }
 
@@ -54,7 +54,6 @@ const Register = () => {
     formData.set("avatar", avatar);
 
     await dispatch(register(formData));
-    alert.success("Registered successfully");
     dispatch(loadUser());
   };
 
