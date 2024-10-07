@@ -9,6 +9,8 @@ import AlertTemplate from'react-alert-template-basic';
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
 
+
+const id = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
 const options = {
   timeout: 5000,
   position: positions.BOTTOM_CENTER,
@@ -18,7 +20,7 @@ const options = {
 ReactDOM.render(
   <Provider store={store}>
     <AlertProvider template={AlertTemplate} {...options}>
-      <GoogleOAuthProvider clientId="672585097063-i9odjr7fcq8qesj1h5b2bhddq9hp7tp2.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={id}>
         <App />
       </GoogleOAuthProvider>
     </AlertProvider>
