@@ -43,7 +43,7 @@ import{
 const BackendPrefix = import.meta.env.VITE_APP_API_KEY;
 
 //Login
-export const login = (email, password) => async (dispatch) => {
+export const login = (userData) => async (dispatch) => {
     try{
 
         dispatch({type: LOGIN_REQUEST})
@@ -55,7 +55,7 @@ export const login = (email, password) => async (dispatch) => {
             withCredentials: true,
         }
 
-        const {data} = await axios.post(`${BackendPrefix}/login`, {email, password} ,  config)
+        const {data} = await axios.post(`${BackendPrefix}/login`, userData ,  config)
 
         dispatch({
             type: LOGIN_SUCCESS,

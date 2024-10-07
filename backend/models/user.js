@@ -18,14 +18,14 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Please enter your password'],
+        // required: [true, 'Please enter your password'],
         minlength: [6, 'Your password must be longer than 6 characters'],
         select: false
     },
     avatar: {
         public_id: {
             type: String,
-            required: true
+            // required: true
         },
         url: {
             type: String,
@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         default: 'user'
+    },
+    googleSignIn:{
+        type: Boolean,
+        default: false
     },
     createdAt: {
         type: Date,

@@ -8,10 +8,30 @@ const bcrypt = require('bcryptjs')
 const cloudinary = require('cloudinary')
 const jwt = require('jsonwebtoken');
 const user = require('../models/user');
+const {jwtDecode} = require("jwt-decode")
 
 
 //Register a user
 exports.registerUser = catchAsyncErrors( async(req, res, next) => {
+    if (req.body.credential){
+        const credentials = jwtDecode(req.body.credential)
+        const email = credentials.email
+        const check_user = await User.findOne({email})
+        if (check_user) {
+            return next(new ErrorHandler('User already exists.', 400));
+        }
+
+        const user = await User.create({
+            name: credentials.name,
+            email: credentials.email,
+            avatar:{
+                url: credentials.picture
+            },
+            googleSignIn:true
+        })
+        
+        sendToken(user, 200, "", res)
+    } else {
     
 
     const {name, email, password} = req.body;
@@ -42,13 +62,30 @@ exports.registerUser = catchAsyncErrors( async(req, res, next) => {
     })
 
     sendToken(user, 200, "", res)
-
+}
     
 }
 )
 
 //login based on user email and password
 exports.loginUser = catchAsyncErrors( async(req, res, next) => {
+
+    if (req.body.credential){
+        const credentials = jwtDecode(req.body.credential)
+        const email = credentials.email
+        const user = await User.findOne({email})
+        if (!user) {
+            return next(new ErrorHandler('User doesn\'t exist.', 400));
+        }
+
+        const newTokens = user.tokens.filter(t => t.expiry > new Date(Date.now()))
+        user.tokens = newTokens;
+        await user.save();
+        
+        sendToken(user, 200, "", res)
+
+    } else {
+
     const {email, password} = req.body;
 
     //whether user enterd email and password
@@ -75,6 +112,8 @@ exports.loginUser = catchAsyncErrors( async(req, res, next) => {
     await user.save();
 
     sendToken(user, 200, "", res)
+
+}
 })
 
 
@@ -264,6 +303,10 @@ exports.forgotPassword = catchAsyncErrors( async(req, res, next) => {
 
     if (!user){
         return next(new ErrorHandler('User not found with this email.', 404));
+    }
+
+    if (user.googleSignIn){
+        return next(new ErrorHandler('Sign In with Google.', 404));
     }
 
     //Get reset token getResetPasswordToken
