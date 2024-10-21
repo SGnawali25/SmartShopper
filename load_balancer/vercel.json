@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "builds": [{
+        "src":"load_balancer.js",
+        "use":"@vercel/node"
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/load_balancer.js"
+        }
+    ]
+}
