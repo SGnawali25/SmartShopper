@@ -180,7 +180,7 @@ export const forgotPassword = (email) => async(dispatch) => {
 }
 
 //reset password
-export const resetPassword = (token, password, confirmPassword) => async(dispatch) => {
+export const resetPassword = (token, password, confirmPassword, logoutOtherDevices) => async(dispatch) => {
     try{
         dispatch({type: RESET_PASSWORD_REQUEST})
 
@@ -191,7 +191,7 @@ export const resetPassword = (token, password, confirmPassword) => async(dispatc
             withCredentials: true,
         }
 
-        const {data} = await axios.put(`${BackendPrefix}/password/reset/${token}`, {password, confirmPassword}, config)
+        const {data} = await axios.put(`${BackendPrefix}/password/reset/${token}`, {password, confirmPassword, logoutOtherDevices}, config)
 
         dispatch({
             type: RESET_PASSWORD_SUCCESS,

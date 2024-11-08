@@ -183,7 +183,7 @@ exports.changePassword = catchAsyncErrors( async(req, res, next) => {
     if (req.body.logoutOtherDevices){
         user.tokens = [];
     } 
-    
+
     await user.save()
     sendToken(user,200 ,"Password Updated Successfully", res)
 
@@ -377,7 +377,9 @@ exports.resetPassword = catchAsyncErrors( async(req, res, next) => {
 
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
-    user.tokens = [];
+    if (req.body.logoutOtherDevices){
+        user.tokens = [];
+    }
 
     await user.save();
     sendToken(user, 200,"Passpord Changed successfully", res);
