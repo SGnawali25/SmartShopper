@@ -207,7 +207,7 @@ export const resetPassword = (token, password, confirmPassword) => async(dispatc
 
 
 
-export const changePassword = (currentPassword, newPassword, confirmNewPassword) => async (dispatch) => {
+export const changePassword = (currentPassword, newPassword, confirmNewPassword, logoutOtherDevices) => async (dispatch) => {
     try{
         dispatch({type: CHANGE_PASSWORD_REQUEST})
 
@@ -218,7 +218,7 @@ export const changePassword = (currentPassword, newPassword, confirmNewPassword)
             withCredentials: true,
         }
 
-        const {data} = await axios.put(`${BackendPrefix}/password/change`, {currentPassword, newPassword, confirmNewPassword}, config);
+        const {data} = await axios.put(`${BackendPrefix}/password/change`, {currentPassword, newPassword, confirmNewPassword, logoutOtherDevices}, config);
 
 
         const token = data.token;

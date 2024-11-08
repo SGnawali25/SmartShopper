@@ -177,9 +177,13 @@ exports.changePassword = catchAsyncErrors( async(req, res, next) => {
         const message = "Your new passwords doesn't match with each other.";
         return next(new ErrorHandler(message, 402))
     }
-
+    console.log(req.body.logoutOtherDevices)
     user.password = req.body.newPassword;
-    user.tokens = [];
+
+    if (req.body.logoutOtherDevices){
+        user.tokens = [];
+    } 
+    
     await user.save()
     sendToken(user,200 ,"Password Updated Successfully", res)
 
