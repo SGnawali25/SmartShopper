@@ -29,7 +29,7 @@ app.use((req, res, next) => {
   const userAgent = req.headers['user-agent'] || 'Unknown UA';
 
   console.log(`[${new Date().toISOString()}] Incoming request from IP: ${ip}, User-Agent: ${userAgent}, URL: ${req.method} ${req.url}`);
-
+  console.log(`all reques details: ${req}`)
   next();
 });
 
