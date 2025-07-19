@@ -23,6 +23,16 @@ for (let i = 1; i <= serverCount; i++) {
 
 let currentIndex = 0;
 
+// Log user info middleware
+app.use((req, res, next) => {
+  const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.connection.remoteAddress;
+  const userAgent = req.headers['user-agent'] || 'Unknown UA';
+
+  console.log(`[${new Date().toISOString()}] Incoming request from IP: ${ip}, User-Agent: ${userAgent}, URL: ${req.method} ${req.url}`);
+
+  next();
+});
+
 // Middleware to handle load balancing
 app.use((req, res, next) => {
   // Pick the server using round-robin
