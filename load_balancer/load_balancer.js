@@ -27,9 +27,27 @@ let currentIndex = 0;
 app.use((req, res, next) => {
   const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.connection.remoteAddress;
   const userAgent = req.headers['user-agent'] || 'Unknown UA';
-
   console.log(`[${new Date().toISOString()}] Incoming request from IP: ${ip}, User-Agent: ${userAgent}, URL: ${req.method} ${req.url}`);
-  console.log(`all reques details: ${req}`)
+  // req details
+  console.log("===== Incoming Request Info =====");
+  console.log("Method:        ", req.method);
+  console.log("URL:           ", req.originalUrl);
+  console.log("IP:            ", req.headers['x-forwarded-for']?.split(',')[0] || req.connection.remoteAddress);
+  console.log("User-Agent:    ", req.get('User-Agent'));
+  console.log("Headers:       ", req.headers);
+  console.log("Query Params:  ", req.query);
+  console.log("Route Params:  ", req.params);
+  console.log("Request Body:  ", req.body); // if body-parser is used
+  console.log("Cookies:       ", req.cookies); // if cookie-parser is used
+  console.log("Protocol:      ", req.protocol);
+  console.log("Host:          ", req.hostname);
+  console.log("Path:          ", req.path);
+  console.log("Secure:        ", req.secure);
+  console.log("Base URL:      ", req.baseUrl);
+  console.log("Original URL:  ", req.originalUrl);
+  console.log("Fresh/Stale:   ", req.fresh, "/", req.stale);
+  console.log("XHR (AJAX?):   ", req.xhr);
+  console.log("=================================");
   next();
 });
 
