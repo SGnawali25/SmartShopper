@@ -1,6 +1,7 @@
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const dotenv = require('dotenv');
+const axios = require('axios');
 
 const app = express();
 
@@ -24,7 +25,7 @@ for (let i = 1; i <= serverCount; i++) {
 let currentIndex = 0;
 
 // Log user info middleware
-app.use((req, res, next) => {
+app.use(async(req, res, next) => {
   const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.connection.remoteAddress;
   const userAgent = req.headers['user-agent'] || 'Unknown UA';
   console.log(`[${new Date().toISOString()}] Incoming request from IP: ${ip}, User-Agent: ${userAgent}, URL: ${req.method} ${req.url}`);
@@ -48,6 +49,9 @@ app.use((req, res, next) => {
   console.log("Fresh/Stale:   ", req.fresh, "/", req.stale);
   console.log("XHR (AJAX?):   ", req.xhr);
   console.log("=================================");
+  const response = await axios.get(`http://ip-api.com/json/${ip}`);
+  const data = response.data;
+  console.log(`IP Info: Country: ${data.country}, Region: ${data.regionName}, City: ${data.city}, ISP: ${data.isp}`);
   next();
 });
 
