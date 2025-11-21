@@ -13,6 +13,7 @@ const {jwtDecode} = require("jwt-decode")
 
 //Register a user
 exports.registerUser = catchAsyncErrors( async(req, res, next) => {
+    // this is for sigin with google
     if (req.body.credential){
         const credentials = jwtDecode(req.body.credential)
         const email = credentials.email

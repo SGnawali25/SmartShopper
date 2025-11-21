@@ -11,6 +11,9 @@
   },
   "author": "Sandesh Gnawali",
   "license": "ISC",
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -21,6 +24,7 @@
     "express": "^4.18.2",
     "express-fileupload": "^1.4.1",
     "jsonwebtoken": "^9.0.1",
+    "jwt-decode": "^4.0.0",
     "mongoose": "^7.3.2",
     "nodemailer": "^6.9.3",
     "stripe": "^16.5.0",

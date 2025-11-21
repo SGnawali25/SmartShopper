@@ -21,15 +21,6 @@ app.use("*",cors({
     credentials: true,
 }));
 
-// Logging middleware - logs IP, User-Agent, URL
-app.use((req, res, next) => {
-  const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.connection.remoteAddress;
-  const ua = req.headers['user-agent'];
-  
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} - IP: ${ip} - UA: ${ua}`);
-
-  next();
-});
 
 //Import all routes
 const products = require('./routes/product');
